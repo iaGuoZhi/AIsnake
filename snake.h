@@ -11,8 +11,8 @@
 
 
 enum{
-    BOARDWIDTH=30,
-    BOARDHEIGHT=25
+    BOARDWIDTH=50,
+    BOARDHEIGHT=36
 }; //set the amount of unit a board can hold
 enum DIRECTION{
     RIGHT,DOWN,UP,LEFT
@@ -23,8 +23,8 @@ class Snake: public QFrame             //继承qframe，to enable the ability to
     //Q_OBJECT
     const int FOODNUMBER=1;            //food amount is not changed
     const int SNAKELENGTH=3;
-    const int SNAKEHEADX=15;
-    const int SNAKEHEADY=15;
+    const int SNAKEHEADX=25;
+    const int SNAKEHEADY=20;
 public:
     Snake();
     void initSnake();

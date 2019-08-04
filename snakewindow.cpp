@@ -6,10 +6,9 @@
 SnakeWindow::SnakeWindow()
 {
     board=new SnakeBorder;
-
-    scoreLcd=new QLCDNumber(5);
+    scoreLcd=new QLCDNumber(5);   //specify the max length of the number
     scoreLcd->setSegmentStyle(QLCDNumber::Filled);
-    levelLcd=new QLCDNumber(2);
+    levelLcd=new QLCDNumber(5);
     levelLcd->setSegmentStyle(QLCDNumber::Filled);
 
     startButton = new QPushButton(tr("&Start"));
@@ -38,17 +37,17 @@ SnakeWindow::SnakeWindow()
 
     QGridLayout *layout=new QGridLayout;
     //layout->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
-    layout->addWidget(createLabel(tr("QSnake")),0,0);
-    layout->addWidget(createLabel(tr("LEVEL")), 1, 0);
-    layout->addWidget(levelLcd, 2, 0);
-    layout->addWidget(createLabel(tr("SCORE")), 3, 0);
-    layout->addWidget(scoreLcd, 4, 0);
-    layout->addWidget(board, 0, 1, 5, 5);
-    layout->addWidget(startButton, 5, 0);
-    layout->addWidget(quitButton, 5, 2);
-    layout->addWidget(pauseButton, 5, 4);
-    board->setFocusPolicy(Qt::StrongFocus);
+    layout->addWidget(board, 0, 0,9,10);
 
+    layout->addWidget(createLabel(tr("LEVEL")), 0, 10,1,1);
+    layout->addWidget(levelLcd, 1, 10,1,1);
+    layout->addWidget(createLabel(tr("SCORE")), 2, 10,1,1);
+    layout->addWidget(scoreLcd, 3, 10,1,1);
+
+    layout->addWidget(startButton, 5, 10,1,1);
+    layout->addWidget(quitButton, 6, 10,1,1);
+    layout->addWidget(pauseButton, 7, 10,1,1);
+    layout->setMargin(0);
 
     setLayout(layout);
     setWindowTitle(tr("QSnake"));

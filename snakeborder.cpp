@@ -2,8 +2,13 @@
 #include "snakeborder.h"
 #include <QtWidgets>
 #include<QDebug>
-SnakeBorder::SnakeBorder(QWidget *parent) :QFrame (parent)
+SnakeBorder::SnakeBorder(QWidget *parent)
+: QFrame(parent)
 {
+
+    setObjectName("myframe");
+    setStyleSheet("QFrame#myframe{border-image:url(../qSnake/images/ditu.jpg)}" );
+    setFocusPolicy(Qt::StrongFocus);
     level=0;
     state=WAIT;
     score=0;
@@ -98,4 +103,7 @@ void SnakeBorder::timerEvent(QTimerEvent *event)
         timer.start(timeoutTime(),this);
     }
 }
+
+
+
 

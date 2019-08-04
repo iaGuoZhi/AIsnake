@@ -24,9 +24,11 @@ class SnakeBorder : public QFrame
 public:
     SnakeBorder(QWidget *parent=0);
 
+
 public slots:
     void start();
     void pause();
+
 signals:
     void scoreChanged(int score);
     void levelChanged(int level);

@@ -116,7 +116,7 @@ bool Snake::QSalive()
             return false;
         }
     }
-    if(headx<0||headx>=BOARDWIDTH||heady<0||heady>=BOARDHEIGHT)
+    if(headx<0||headx>BOARDWIDTH||heady<0||heady>=BOARDHEIGHT)
     {
         return false;
     }
