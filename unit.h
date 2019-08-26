@@ -42,6 +42,7 @@ private:
     int UnitY;
     int UnitColor;
 
+
 };
 
 #endif // UNIT_H

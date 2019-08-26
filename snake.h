@@ -11,8 +11,10 @@
 
 
 enum{
-    BOARDWIDTH=50,
-    BOARDHEIGHT=36
+    BOARDWIDTH=100,
+    BOARDHEIGHT=72,
+    BRICKWIDTH=9,
+    BRICKHEIGHT=5
 }; //set the amount of unit a board can hold
 enum DIRECTION{
     RIGHT,DOWN,UP,LEFT
@@ -36,9 +38,12 @@ public:
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
     QVector<Unit> QVsnake;           //为了paint，暂时public
     QVector<Unit> QVfood;
+    QVector<Unit> QVbrick;
+    QVector<Unit> QVfoodbrick;       //array of the left-top point in the blocks of QVbrick, which can help generate food in the block;
     void drawSquare(QPainter &painter,int x,int y,int color,int squarewidth,int squareheight);
     DIRECTION Sdirection;
     void createFood(int index);
+    void createBrick();
 };
 
 #endif // SNAKE_H

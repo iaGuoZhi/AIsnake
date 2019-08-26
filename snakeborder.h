@@ -20,6 +20,9 @@ class SnakeBorder : public QFrame
     enum STATE{
         RUN,PAUSE,END,WAIT
     };
+    enum COMMAND{
+        HELP,EMPTY
+    };
 
 public:
     SnakeBorder(QWidget *parent=0);
@@ -28,6 +31,7 @@ public:
 public slots:
     void start();
     void pause();
+    void help();
 
 signals:
     void scoreChanged(int score);
@@ -39,6 +43,7 @@ private:
     int level;
     int score;
     STATE state;
+    COMMAND command;
     Snake snake;
     QBasicTimer timer;
 

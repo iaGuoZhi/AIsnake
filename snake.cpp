@@ -8,6 +8,7 @@ Snake::Snake()
 void Snake::initSnake()
 {
     /*create default initial snake*/
+    createBrick();
     QVsnake.clear();
     for (int i=0;i<SNAKELENGTH;++i) {
         QVsnake.append(Unit(SNAKEHEADX-i,SNAKEHEADY,1));
@@ -51,12 +52,45 @@ void Snake::createFood(int index)
             if(QVfood[j].getUnitY()==randomx&&QVfood[j].getUnitY()==randomy)
                 overlapflag=true;                   //avoid new created food is overlaped with other food
         }
+        for(int j=0;j<QVfoodbrick.size();++j)
+        {
+            if(QVfoodbrick[j].getUnitX()<=randomx&&QVfoodbrick[j].getUnitX()+BRICKWIDTH>=randomx&&QVfoodbrick[j].getUnitY()<=randomy&&QVfoodbrick[j].getUnitY()+BRICKHEIGHT>=randomy)
+                overlapflag=true;
+        }
         if(overlapflag==false)
         {
             QVfood[index].setUnitX(randomx);
             QVfood[index].setUnitY(randomy);
             return;
         }                                     //circulate till the right position is created
+    }
+}
+
+/* create brick as initial terrain*/
+void Snake::createBrick()
+{
+    int random;
+    for(int i=0;i<BOARDWIDTH-BRICKWIDTH;++i)
+    {
+        for(int j=0;j<BOARDHEIGHT-BRICKHEIGHT;++j)
+        {
+            if(i<=SNAKEHEADX&&i+BRICKWIDTH>=SNAKEHEADX&&j<=SNAKEHEADY&&j+BRICKHEIGHT>=SNAKEHEADY)
+                continue;
+            qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+            random=rand()%300;
+            if(random==0)
+            {
+                QVfoodbrick.append(Unit(i,j,3));
+                for(int k=0;k<BRICKWIDTH;++k)
+                {
+                    for(int t=0;t<BRICKHEIGHT;++t)
+                    {
+                        if(rand()%3!=0)
+                         QVbrick.append(Unit(i+k,j+t,3));
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -120,6 +154,13 @@ bool Snake::QSalive()
     {
         return false;
     }
+    for(int i=0;i<QVbrick.size();++i)
+    {
+        if(headx==QVbrick[i].getUnitX()&&heady==QVbrick[i].getUnitY())
+        {
+            return false;
+        }
+    }
     return true;
 }
 
@@ -136,6 +177,10 @@ void Snake::QSchangeDirection(DIRECTION direction)
 /*draw snake and food*/
 void Snake::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardLeft,int boardTop)
 {
+        for(int i=0;i<QVbrick.size();++i)
+        {
+            drawSquare(painter,boardLeft+QVbrick[i].getUnitX()*squarewidth,boardTop+QVbrick[i].getUnitY()*squareheight,QVbrick[i].getUnitColor(),squarewidth,squareheight);
+        }
         for(int i=0;i<QVsnake.size();++i)
         {
             drawSquare(painter,boardLeft+QVsnake[i].getUnitX()*squarewidth,boardTop+QVsnake[i].getUnitY()*squareheight,QVsnake[i].getUnitColor(),squarewidth,squareheight);

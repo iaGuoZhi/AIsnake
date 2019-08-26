@@ -29,13 +29,17 @@ SOURCES += \
         snake.cpp \
         snakeborder.cpp \
         snakewindow.cpp \
-        unit.cpp
+        unit.cpp \
+    homepage.cpp \
+    gamehelp.cpp
 
 HEADERS += \
         snake.h \
         snakeborder.h \
         snakewindow.h \
-        unit.h
+        unit.h \
+    homepage.h \
+    gamehelp.h
 
 FORMS +=
 

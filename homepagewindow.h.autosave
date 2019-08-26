@@ -1,0 +1,28 @@
+#define QT_NO_OPENGL
+#ifndef HOMEPAGEWINDOW_H
+#define HOMEPAGEWINDOW_H
+#include<QFrame>
+#include<QWidget>
+
+#include "snakewindow.h"
+
+
+QT_BEGIN_NAMESPACE
+class QLCDNumber;
+class QLabel;
+class QPushButton;
+QT_END_NAMESPACE
+
+class SnakeWindow;
+
+class HomepageWindow:public QWidget
+{
+    Q_OBJECT
+public:
+    HomepageWindow();
+    
+private:
+    
+}
+
+#endif // HOMEPAGEWINDOW_H

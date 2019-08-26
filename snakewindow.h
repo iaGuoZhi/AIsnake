@@ -27,6 +27,7 @@ private:
     QPushButton *startButton;
     QPushButton *quitButton;
     QPushButton *pauseButton;
+    QPushButton *helpButton;
 
     QLabel *createLabel(const QString &text);
 

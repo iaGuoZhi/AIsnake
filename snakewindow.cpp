@@ -8,6 +8,7 @@ SnakeWindow::SnakeWindow()
     board=new SnakeBorder;
     scoreLcd=new QLCDNumber(5);   //specify the max length of the number
     scoreLcd->setSegmentStyle(QLCDNumber::Filled);
+    //scoreLcd->setStyleSheet("border-image:url(../qSnake/images/ditu.jpg)" );
     levelLcd=new QLCDNumber(5);
     levelLcd->setSegmentStyle(QLCDNumber::Filled);
 
@@ -17,10 +18,13 @@ SnakeWindow::SnakeWindow()
     quitButton->setFocusPolicy(Qt::NoFocus);
     pauseButton = new QPushButton(tr("&Pause"));
     pauseButton->setFocusPolicy(Qt::NoFocus);
+    helpButton=new QPushButton(tr("&Help"));
+    helpButton->setFocusPolicy(Qt::NoFocus);
 
     connect(startButton, &QPushButton::clicked, board, &SnakeBorder::start);
     connect(quitButton , &QPushButton::clicked, qApp, &QApplication::quit);
     connect(pauseButton, &QPushButton::clicked, board, &SnakeBorder::pause);
+    connect(helpButton,&QPushButton::clicked,board,&SnakeBorder::help);
 
 #if __cplusplus >= 201402L
     connect(board, &SnakeBoard::scoreChanged,
@@ -37,16 +41,24 @@ SnakeWindow::SnakeWindow()
 
     QGridLayout *layout=new QGridLayout;
     //layout->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
-    layout->addWidget(board, 0, 0,9,10);
+    layout->addWidget(createLabel(tr("一号玩家")),0,0,1,1);
+    layout->addWidget(createLabel(tr("LEVEL")), 1, 0,1,1);
+    layout->addWidget(levelLcd, 2, 0,1,1);
+    layout->addWidget(createLabel(tr("SCORE")), 3, 0,1,1);
+    layout->addWidget(scoreLcd, 4, 0,1,1);
+    layout->addWidget(pauseButton, 5, 0,1,1);
+    layout->addWidget(helpButton,6,0,1,1);
 
-    layout->addWidget(createLabel(tr("LEVEL")), 0, 10,1,1);
-    layout->addWidget(levelLcd, 1, 10,1,1);
-    layout->addWidget(createLabel(tr("SCORE")), 2, 10,1,1);
-    layout->addWidget(scoreLcd, 3, 10,1,1);
+    layout->addWidget(board, 0, 1,9,9);
+
+    layout->addWidget(createLabel(tr("二号玩家")),0,10,1,1);
+    layout->addWidget(createLabel(tr("LEVEL")), 1, 10,1,1);
+    layout->addWidget(levelLcd, 2, 10,1,1);
+    layout->addWidget(createLabel(tr("SCORE")), 3, 10,1,1);
+    layout->addWidget(scoreLcd, 4, 10,1,1);
 
     layout->addWidget(startButton, 5, 10,1,1);
     layout->addWidget(quitButton, 6, 10,1,1);
-    layout->addWidget(pauseButton, 7, 10,1,1);
     layout->setMargin(0);
 
     setLayout(layout);
