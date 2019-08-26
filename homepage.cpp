@@ -17,6 +17,7 @@ Homepage::Homepage(QWidget *parent):QDialog(parent)
     createDifficultyGroupBox();
 
     beginButton=new QPushButton(tr("开始游戏"));
+    connect(beginButton,SIGNAL(clicked()),this,SLOT(beginClickFunc()));
 
     QGridLayout *mainLayout=new QGridLayout;
     mainLayout->addWidget(modeGroupBox,0,0,3,3);
@@ -85,6 +86,7 @@ void Homepage::createMessageGroupBox()
     infoButton=new QPushButton(tr("关于游戏"));
 
     connect(helpButton,SIGNAL(clicked()),this,SLOT(helpClickFunc()));
+    connect(infoButton,SIGNAL(clicked()),this,SLOT(infoClickFunc()));
 
     QVBoxLayout *layout=new QVBoxLayout;
     layout->addWidget(helpButton);
@@ -124,4 +126,20 @@ void Homepage::helpClickFunc()
                                           "       6.双人游戏中，蛇具有截获蛇身的能力，如果蛇头咬到其他蛇的蛇身，则被咬蛇的蛇身之后的长度将移动至该蛇\n"
                                           "       7.双人游戏中，如果两个蛇头相触，则蛇身短的蛇死亡\n"
                                             ));
+}
+
+void Homepage::infoClickFunc()
+{
+    QMessageBox::about(this,tr("project info"),tr("the first project of course software practice\n"
+                                                  "taught by software school SJTU\n"
+                                                  "coded by zhiGuo,a 2017th student\n"
+                                                  "powered by qt creator\n"
+                                                  "the whole demo is uploaded to github:\n"
+                                                  "https://github.com/Guozhi-explore/AIsnake"));
+}
+
+void Homepage::beginClickFunc()
+{
+    this->hide();
+    window.show();
 }

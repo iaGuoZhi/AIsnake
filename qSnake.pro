@@ -30,16 +30,14 @@ SOURCES += \
         snakeborder.cpp \
         snakewindow.cpp \
         unit.cpp \
-    homepage.cpp \
-    gamehelp.cpp
+    homepage.cpp
 
 HEADERS += \
         snake.h \
         snakeborder.h \
         snakewindow.h \
         unit.h \
-    homepage.h \
-    gamehelp.h
+    homepage.h
 
 FORMS +=
 

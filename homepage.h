@@ -30,13 +30,15 @@ private slots:
     void changeStyle(const QString &styleName);
     void helpClickFunc();
     void infoClickFunc();
+    void beginClickFunc();
+
 private:
     void createModeGroupBox();
     void createMessageGroupBox();
     void createThemeGroupBox();
     void createDifficultyGroupBox();
 
-    SnakeWindow *window;
+    SnakeWindow window;
 
     QPalette originalPalette;
 
