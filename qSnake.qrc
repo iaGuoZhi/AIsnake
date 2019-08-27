@@ -2,6 +2,9 @@
     <qresource prefix="/">
         <file>images/woodbutton.png</file>
         <file>images/woodbackground.png</file>
-        <file>images/grass.jpg</file>
+        <file>images/prairiebackground.jpeg</file>
+        <file>images/prairiebutton.jpeg</file>
+        <file>images/seabackground.jpg</file>
+        <file>images/seabutton.jpeg</file>
     </qresource>
 </RCC>

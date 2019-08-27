@@ -2,6 +2,7 @@
 #include <QtWidgets>
 #include "snakewindow.h"
 #include "snakeborder.h"
+#include<QDebug>
 
 SnakeWindow::SnakeWindow()
 {
@@ -22,7 +23,7 @@ SnakeWindow::SnakeWindow()
     helpButton->setFocusPolicy(Qt::NoFocus);
 
     connect(startButton, &QPushButton::clicked, board, &SnakeBorder::start);
-    connect(quitButton , &QPushButton::clicked, qApp, &QApplication::quit);
+    connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
     connect(pauseButton, &QPushButton::clicked, board, &SnakeBorder::pause);
     connect(helpButton,&QPushButton::clicked,board,&SnakeBorder::help);
 
@@ -63,7 +64,7 @@ SnakeWindow::SnakeWindow()
 
     setLayout(layout);
     setWindowTitle(tr("QSnake"));
-    resize(550,370);
+    resize(700,450);
 }
 
 QLabel *SnakeWindow::createLabel(const QString &text)
@@ -71,4 +72,18 @@ QLabel *SnakeWindow::createLabel(const QString &text)
     QLabel *label = new QLabel(text);
     label->setAlignment(Qt::AlignHCenter | Qt::AlignBottom);
     return label;
+}
+
+void SnakeWindow::quit()
+{
+   qDebug()<<this->mode;
+   emit backHomepage();
+}
+
+void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
+{
+    this->mode=mode;
+    this->theme=theme;
+    this->difficulty=difficulty;
+    qDebug()<<this->difficulty;
 }

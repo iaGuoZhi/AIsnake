@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
     /*SnakeWindow window;
     window.show();*/
     Homepage homepage;
-    homepage.resize(800,400);
     homepage.show();
     return a.exec();
 }

@@ -1,35 +1,43 @@
 #define QT_NO_OPENGL
 
 #include<QtWidgets>
+#include <QDebug>
 #include<QMessageBox>
 #include "homepage.h"
 #include "costomstyle.h"
 #include "snakewindow.h"
 #include "foreststyle.h"
+#include "prairiestyle.h"
+#include "seastyle.h"
+
+
 
 
 Homepage::Homepage(QWidget *parent):QDialog(parent)
 {
-
+    this->resize(800,400);
     createModeGroupBox();
     createMessageGroupBox();
     createThemeGroupBox();
     createDifficultyGroupBox();
 
+
     beginButton=new QPushButton(tr("开始游戏"));
     connect(beginButton,SIGNAL(clicked()),this,SLOT(beginClickFunc()));
-
+    quitButton=new QPushButton(tr("退出游戏"));
+    connect(quitButton,&QPushButton::clicked,qApp, &QApplication::quit);
     QGridLayout *mainLayout=new QGridLayout;
     mainLayout->addWidget(modeGroupBox,0,0,3,3);
     mainLayout->addWidget(messageGroupBox,0,3,3,2);
     mainLayout->addWidget(themeGroupBox,3,3,2,2);
     mainLayout->addWidget(difficultyGroupBox,3,0,2,3);
     mainLayout->addWidget(beginButton,5,0,1,5);
+    mainLayout->addWidget(quitButton,6,0,1,5);
 
     setLayout(mainLayout);
 
     setWindowTitle(tr("QSnake"));
-    changeStyle("自定义");
+    changeStyle("森林");
 }
 
 void Homepage::createThemeGroupBox()
@@ -39,14 +47,19 @@ void Homepage::createThemeGroupBox()
     QApplication::setPalette(originalPalette);
 
     styleComboBox=new QComboBox;
-    styleComboBox->addItem("自定义");
+    styleComboBox->addItem("森林");
+    styleComboBox->addItem("草原");
+    styleComboBox->addItem("海洋");
     styleComboBox->addItems(QStyleFactory::keys());
 
     styleLabel=new QLabel(tr("&主题:"));
     styleLabel->setBuddy(styleComboBox);
 
+
     connect(styleComboBox,SIGNAL(activated(QString)),this,SLOT(changeStyle(QString)));
-     QVBoxLayout *layout=new QVBoxLayout;
+
+    connect(&window,SIGNAL(backHomepage()),this,SLOT(backHomepageFunc()));
+    QVBoxLayout *layout=new QVBoxLayout;
      layout->addWidget(styleLabel);
      layout->addWidget(styleComboBox);
       layout->addStretch(1);
@@ -56,10 +69,22 @@ void Homepage::createThemeGroupBox()
 }
 void Homepage::changeStyle(const QString &styleName)
 {
-    if (styleName == "自定义") {
+    if (styleName == "森林") {
         QApplication::setStyle(new forestStyle);
     } else {
-    QApplication::setStyle(QStyleFactory::create(styleName));
+        if(styleName == "草原")
+        {
+            QApplication::setStyle(new prairiestyle);
+        }
+        else{
+            if(styleName == "海洋")
+            {
+                       QApplication::setStyle(new seastyle);
+            }
+        else{
+        QApplication::setStyle(QStyleFactory::create(styleName));
+    }
+    }
 }
 }
 
@@ -147,6 +172,59 @@ void Homepage::infoClickFunc()
 
 void Homepage::beginClickFunc()
 {
+    /*keep the checked mode*/
+    if(singlePlayerButton->isChecked())
+    {
+        this->mode=GAMEMODE::SINGLEPLAYER;
+    }
+    if(doublePlayerButton->isChecked())
+    {
+        this->mode=GAMEMODE::DOUBLEPLAYER;
+    }
+    if(playWithAIButton->isChecked())
+    {
+        this->mode=GAMEMODE::PLAYWITHAI;
+    }
+    if(watchAIButton->isChecked())
+    {
+        this->mode=GAMEMODE::WATCHAIPLAY;
+    }
+
+    /*keep the checked style*/
+    if(styleComboBox->currentText()=="森林")
+    {
+        this->theme=THEME::COSTOM_FOREST;
+    }
+    if(styleComboBox->currentText()=="草原")
+    {
+        this->theme=THEME::COSTOM_PIRARIE;
+    }
+    if(styleComboBox->currentText()=="海洋")
+    {
+        this->theme=THEME::COSTOM_SEA;
+    }
+    if(styleComboBox->currentText()=="Windows")
+    {
+        this->theme=THEME::SYSTEM_WINDOWS;
+    }
+    if(styleComboBox->currentText()=="Fusion")
+    {
+        this->theme=THEME::SYSTEM_FUSION;
+    }
+
+    /*keep the difficulty value*/
+    this->difficulty=difficultySlider->value();
+
+    window.remakeAsOrder(this->mode,this->theme,this->difficulty);
+
     this->hide();
     window.show();
 }
+
+void Homepage::backHomepageFunc()
+{
+    window.hide();
+    this->show();
+}
+
+

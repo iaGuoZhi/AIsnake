@@ -32,7 +32,10 @@ SOURCES += \
         unit.cpp \
     homepage.cpp \
     costomstyle.cpp \
-    foreststyle.cpp
+    foreststyle.cpp \
+    prairiestyle.cpp \
+    seastyle.cpp \
+    shareinfo.cpp
 
 
 HEADERS += \
@@ -42,7 +45,10 @@ HEADERS += \
         unit.h \
     homepage.h \
     costomstyle.h \
-    foreststyle.h
+    foreststyle.h \
+    prairiestyle.h \
+    seastyle.h \
+    shareinfo.h
 
 FORMS +=
 

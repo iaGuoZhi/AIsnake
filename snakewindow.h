@@ -5,6 +5,7 @@
 #include<QWidget>
 
 #include "snakeborder.h"
+#include "shareinfo.h"
 
 QT_BEGIN_NAMESPACE
 class QLCDNumber;
@@ -18,8 +19,15 @@ class SnakeWindow: public QWidget
     Q_OBJECT
 public:
     SnakeWindow();
+    void quit();
 
+signals:
+    void backHomepage();
 private:
+    GAMEMODE mode;
+    THEME theme;
+    int difficulty;
+
     SnakeBorder *board;
 
     QLCDNumber *scoreLcd;
@@ -30,7 +38,9 @@ private:
     QPushButton *helpButton;
 
     QLabel *createLabel(const QString &text);
+public:
 
+    void remakeAsOrder(GAMEMODE mode,THEME theme,int difficulty);
 };
 
 #endif // SNAKEWINDOW_H

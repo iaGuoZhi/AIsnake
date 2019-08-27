@@ -5,7 +5,8 @@
 #include <QDialog>
 
 #include "snakewindow.h"
-
+#include "shareinfo.h"
+#include<QString>
 
 QT_BEGIN_NAMESPACE
 class QCheckBox;
@@ -31,6 +32,7 @@ private slots:
     void helpClickFunc();
     void infoClickFunc();
     void beginClickFunc();
+    void backHomepageFunc();
 
 private:
     void createModeGroupBox();
@@ -39,6 +41,11 @@ private:
     void createDifficultyGroupBox();
 
     SnakeWindow window;
+
+    THEME theme;
+    int difficulty;
+    GAMEMODE mode;
+
 
     QPalette originalPalette;
 
@@ -60,7 +67,7 @@ private:
     QPushButton *infoButton;
 
     QPushButton *beginButton;
-
+    QPushButton *quitButton;
 };
 
 #endif // HOMEPAGEWINDOW_H
