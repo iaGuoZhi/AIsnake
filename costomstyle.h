@@ -75,7 +75,7 @@
       void drawControl(ControlElement control, const QStyleOption *option,
                        QPainter *painter, const QWidget *widget) const override;
 
-  private:
+  protected:
       static void setTexture(QPalette &palette, QPalette::ColorRole role,
                              const QPixmap &pixmap);
       static QPainterPath roundRectPath(const QRect &rect);

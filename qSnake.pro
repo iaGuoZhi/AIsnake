@@ -31,7 +31,8 @@ SOURCES += \
         snakewindow.cpp \
         unit.cpp \
     homepage.cpp \
-    costomstyle.cpp
+    costomstyle.cpp \
+    foreststyle.cpp
 
 
 HEADERS += \
@@ -40,7 +41,8 @@ HEADERS += \
         snakewindow.h \
         unit.h \
     homepage.h \
-    costomstyle.h
+    costomstyle.h \
+    foreststyle.h
 
 FORMS +=
 

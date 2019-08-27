@@ -5,6 +5,7 @@
 #include "homepage.h"
 #include "costomstyle.h"
 #include "snakewindow.h"
+#include "foreststyle.h"
 
 
 Homepage::Homepage(QWidget *parent):QDialog(parent)
@@ -56,7 +57,7 @@ void Homepage::createThemeGroupBox()
 void Homepage::changeStyle(const QString &styleName)
 {
     if (styleName == "自定义") {
-        QApplication::setStyle(new CostomStyle);
+        QApplication::setStyle(new forestStyle);
     } else {
     QApplication::setStyle(QStyleFactory::create(styleName));
 }
