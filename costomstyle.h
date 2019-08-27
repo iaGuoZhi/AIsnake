@@ -48,20 +48,20 @@
   **
   ****************************************************************************/
 
-  #ifndef NORWEGIANWOODSTYLE_H
-  #define NORWEGIANWOODSTYLE_H
+  #ifndef COSTOMSTYLE_H
+  #define COSTOMSTYLE_H
 
   #include <QProxyStyle>
   #include <QPalette>
 
   class QPainterPath;
 
-  class NorwegianWoodStyle : public QProxyStyle
+  class CostomStyle : public QProxyStyle
   {
       Q_OBJECT
 
   public:
-      NorwegianWoodStyle();
+      CostomStyle();
 
       void polish(QPalette &palette) override;
       void polish(QWidget *widget) override;

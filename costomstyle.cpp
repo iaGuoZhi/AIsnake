@@ -50,21 +50,21 @@
 #define QT_NO_OPENGL
 #include <QtWidgets>
 
-#include "norwegianwoodstyle.h"
+#include "costomstyle.h"
 
-NorwegianWoodStyle::NorwegianWoodStyle() :
+CostomStyle::CostomStyle() :
     QProxyStyle(QStyleFactory::create("windows"))
 {
 }
 
 //! [0]
-void NorwegianWoodStyle::polish(QPalette &palette)
+void CostomStyle::polish(QPalette &palette)
 {
     QColor brown(212, 140, 95);
     QColor beige(236, 182, 120);
     QColor slightlyOpaqueBlack(0, 0, 0, 63);
 
-    QPixmap backgroundImage(":/images/woodbackground.png");
+    /*QPixmap backgroundImage(":/images/woodbackground.png");
     QPixmap buttonImage(":/images/woodbutton.png");
     QPixmap midImage = buttonImage;
 
@@ -72,18 +72,18 @@ void NorwegianWoodStyle::polish(QPalette &palette)
     painter.begin(&midImage);
     painter.setPen(Qt::NoPen);
     painter.fillRect(midImage.rect(), slightlyOpaqueBlack);
-    painter.end();
+    painter.end();*/
 //! [0]
 
 //! [1]
-    palette = QPalette(brown);
+    //palette = QPalette(brown);
 
     palette.setBrush(QPalette::BrightText, Qt::white);
     palette.setBrush(QPalette::Base, beige);
     palette.setBrush(QPalette::Highlight, Qt::darkGreen);
-    setTexture(palette, QPalette::Button, buttonImage);
+    /*setTexture(palette, QPalette::Button, buttonImage);
     setTexture(palette, QPalette::Mid, midImage);
-    setTexture(palette, QPalette::Window, backgroundImage);
+    setTexture(palette, QPalette::Window, backgroundImage);*/
 
     QBrush brush = palette.background();
     brush.setColor(brush.color().dark());
@@ -98,7 +98,7 @@ void NorwegianWoodStyle::polish(QPalette &palette)
 //! [1]
 
 //! [3]
-void NorwegianWoodStyle::polish(QWidget *widget)
+void CostomStyle::polish(QWidget *widget)
 //! [3] //! [4]
 {
     if (qobject_cast<QPushButton *>(widget)
@@ -108,7 +108,7 @@ void NorwegianWoodStyle::polish(QWidget *widget)
 //! [4]
 
 //! [5]
-void NorwegianWoodStyle::unpolish(QWidget *widget)
+void CostomStyle::unpolish(QWidget *widget)
 //! [5] //! [6]
 {
     if (qobject_cast<QPushButton *>(widget)
@@ -118,7 +118,7 @@ void NorwegianWoodStyle::unpolish(QWidget *widget)
 //! [6]
 
 //! [7]
-int NorwegianWoodStyle::pixelMetric(PixelMetric metric,
+int CostomStyle::pixelMetric(PixelMetric metric,
 //! [7] //! [8]
                                     const QStyleOption *option,
                                     const QWidget *widget) const
@@ -135,7 +135,7 @@ int NorwegianWoodStyle::pixelMetric(PixelMetric metric,
 //! [8]
 
 //! [9]
-int NorwegianWoodStyle::styleHint(StyleHint hint, const QStyleOption *option,
+int CostomStyle::styleHint(StyleHint hint, const QStyleOption *option,
 //! [9] //! [10]
                                   const QWidget *widget,
                                   QStyleHintReturn *returnData) const
@@ -152,7 +152,7 @@ int NorwegianWoodStyle::styleHint(StyleHint hint, const QStyleOption *option,
 //! [10]
 
 //! [11]
-void NorwegianWoodStyle::drawPrimitive(PrimitiveElement element,
+void CostomStyle::drawPrimitive(PrimitiveElement element,
 //! [11] //! [12]
                                        const QStyleOption *option,
                                        QPainter *painter,
@@ -277,7 +277,7 @@ void NorwegianWoodStyle::drawPrimitive(PrimitiveElement element,
 //! [34]
 
 //! [35]
-void NorwegianWoodStyle::drawControl(ControlElement element,
+void CostomStyle::drawControl(ControlElement element,
 //! [35] //! [36]
                                      const QStyleOption *option,
                                      QPainter *painter,
@@ -309,7 +309,7 @@ void NorwegianWoodStyle::drawControl(ControlElement element,
 //! [36]
 
 //! [37]
-void NorwegianWoodStyle::setTexture(QPalette &palette, QPalette::ColorRole role,
+void CostomStyle::setTexture(QPalette &palette, QPalette::ColorRole role,
 //! [37] //! [38]
                                     const QPixmap &pixmap)
 {
@@ -321,7 +321,7 @@ void NorwegianWoodStyle::setTexture(QPalette &palette, QPalette::ColorRole role,
 //! [38]
 
 //! [39]
-QPainterPath NorwegianWoodStyle::roundRectPath(const QRect &rect)
+QPainterPath CostomStyle::roundRectPath(const QRect &rect)
 //! [39] //! [40]
 {
     int radius = qMin(rect.width(), rect.height()) / 2;

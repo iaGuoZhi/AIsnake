@@ -3,13 +3,12 @@
 #include<QtWidgets>
 #include<QMessageBox>
 #include "homepage.h"
+#include "costomstyle.h"
 #include "snakewindow.h"
 
 
 Homepage::Homepage(QWidget *parent):QDialog(parent)
 {
-
-
 
     createModeGroupBox();
     createMessageGroupBox();
@@ -27,15 +26,19 @@ Homepage::Homepage(QWidget *parent):QDialog(parent)
     mainLayout->addWidget(beginButton,5,0,1,5);
 
     setLayout(mainLayout);
+
     setWindowTitle(tr("QSnake"));
+    changeStyle("自定义");
 }
 
 void Homepage::createThemeGroupBox()
 {
     themeGroupBox =new QGroupBox(tr("选择主题"));
     originalPalette=QApplication::palette();
+    QApplication::setPalette(originalPalette);
 
     styleComboBox=new QComboBox;
+    styleComboBox->addItem("自定义");
     styleComboBox->addItems(QStyleFactory::keys());
 
     styleLabel=new QLabel(tr("&主题:"));
@@ -52,8 +55,11 @@ void Homepage::createThemeGroupBox()
 }
 void Homepage::changeStyle(const QString &styleName)
 {
+    if (styleName == "自定义") {
+        QApplication::setStyle(new CostomStyle);
+    } else {
     QApplication::setStyle(QStyleFactory::create(styleName));
-
+}
 }
 
 void Homepage::createModeGroupBox()

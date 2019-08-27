@@ -7,7 +7,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+requires(qtConfig(combobox))
 TARGET = qSnake
 TEMPLATE = app
 
@@ -30,14 +30,17 @@ SOURCES += \
         snakeborder.cpp \
         snakewindow.cpp \
         unit.cpp \
-    homepage.cpp
+    homepage.cpp \
+    costomstyle.cpp
+
 
 HEADERS += \
         snake.h \
         snakeborder.h \
         snakewindow.h \
         unit.h \
-    homepage.h
+    homepage.h \
+    costomstyle.h
 
 FORMS +=
 
@@ -45,3 +48,5 @@ FORMS +=
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES     = qSnake.qrc \
