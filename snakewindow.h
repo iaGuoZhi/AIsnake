@@ -5,7 +5,7 @@
 #include<QWidget>
 #include<QString>
 
-#include "snakeboard.h"
+#include "singlesnakeboard.h"
 #include "shareinfo.h"
 
 QT_BEGIN_NAMESPACE
@@ -13,7 +13,7 @@ class QLCDNumber;
 class QLabel;
 class QPushButton;
 QT_END_NAMESPACE
-class snakeboard;
+class singlesnakeboard;
 
 class SnakeWindow: public QWidget
 {
@@ -34,7 +34,7 @@ private:
 
     QString difficultyString;
 
-    snakeboard *board;
+    singlesnakeboard *board;
 
     QLCDNumber *scoreLcd1;
     QLCDNumber *scoreLcd2;

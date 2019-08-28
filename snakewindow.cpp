@@ -1,12 +1,12 @@
 #define QT_NO_OPENGL
 #include <QtWidgets>
 #include "snakewindow.h"
-#include "snakeboard.h"
+#include "singlesnakeboard.h"
 #include<QDebug>
 
 SnakeWindow::SnakeWindow()
 {
-    board=new snakeboard;
+    board=new singlesnakeboard;
     scoreLcd1=new QLCDNumber(5);
     scoreLcd1->setSegmentStyle(QLCDNumber::Filled);
     levelLcd1=new QLCDNumber(5);
@@ -26,20 +26,20 @@ SnakeWindow::SnakeWindow()
     helpButton=new QPushButton(tr("&Help"));
     helpButton->setFocusPolicy(Qt::NoFocus);
 
-    connect(startButton, &QPushButton::clicked, board, &snakeboard::start);
+    connect(startButton, &QPushButton::clicked, board, &singlesnakeboard::start);
     connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
-    connect(pauseButton, &QPushButton::clicked, board, &snakeboard::pause);
-    connect(helpButton,&QPushButton::clicked,board,&snakeboard::help);
+    connect(pauseButton, &QPushButton::clicked, board, &singlesnakeboard::pause);
+    connect(helpButton,&QPushButton::clicked,board,&singlesnakeboard::help);
 
 #if __cplusplus >= 201402L
-    connect(board, &SnakeBoard::scoreChanged,
+    connect(board, &singlesnakeboard::scoreChanged,
             scoreLcd1, qOverload<int>(&QLCDNumber::display));
-    connect(board, &SnakeBoard::levelChanged,
+    connect(board, &singlesnakeboard::levelChanged,
             levelLcd1, qOverload<int>(&QLCDNumber::display));
 #else
-    connect(board, &snakeboard::scoreChanged,
+    connect(board, &singlesnakeboard::scoreChanged,
             scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
-    connect(board, &snakeboard::levelChanged,
+    connect(board, &singlesnakeboard::levelChanged,
             levelLcd1, QOverload<int>::of(&QLCDNumber::display));
 
 #endif

@@ -8,25 +8,17 @@
 snakeboard::snakeboard(QWidget *parent)
     : QFrame(parent)
 {
+   init();
+}
+
+void snakeboard::init()
+{
     setFocusPolicy(Qt::StrongFocus);
-    level=0;
     state=WAIT;
     command=EMPTY;
-    score=0;
-    timer.start(timeoutTime(), this);
 }
 
-void snakeboard::start()
-{
-    qDebug()<<"arrive start";
-    state=RUN;
-    score=0;
-    level=0;
-    snake.initSnake();
 
-    emit scoreChanged(score);
-    emit levelChanged(level);
-}
 
 void snakeboard::pause()
 {
@@ -50,39 +42,13 @@ void snakeboard::help()
         command=EMPTY;
     }
 }
-void snakeboard::keyPressEvent(QKeyEvent *event)
-{
-    if(state!=RUN)
-    {
-        QFrame::keyPressEvent(event);
-        return;
-    }
-    switch (event->key()) {
-        case Qt::Key_Left:
-        snake.QSchangeDirection(LEFT);
-            break;
-        case Qt::Key_Right:
-            snake.QSchangeDirection(RIGHT);
-            break;
-        case Qt::Key_Down:
-            snake.QSchangeDirection(DOWN);
-            break;
-        case Qt::Key_Up:
-            snake.QSchangeDirection(UP);
-            break;
-    default:
-        QFrame::keyPressEvent(event);
-    }
-}
-
-void snakeboard::paintEvent(QPaintEvent *)
+void snakeboard::paintMessage(QPaintEvent *)
 {
     QPainter p;
     p.begin(this);
     QFont font("宋体",15,QFont::Bold,true);
     p.setFont(font);
     p.setPen(Qt::green);
-    QRect rect=contentsRect();
     if(command==HELP)
     {
         p.drawText(20,20,"这是一个充满挑战的小游戏");
@@ -99,11 +65,6 @@ void snakeboard::paintEvent(QPaintEvent *)
         p.drawText(20,460,"游戏主题：地图，世界杯，校园");
     }
     else{
-        if(state==RUN){
-          int boardTop = rect.top();
-          int boardLeft=rect.left();
-          snake.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
-        }
         if(state==WAIT)
         {
             p.drawText(20,20,"are you ready?");
@@ -121,33 +82,8 @@ void snakeboard::paintEvent(QPaintEvent *)
     p.end();
 }
 
-void snakeboard::timerEvent(QTimerEvent *event)
-{
-    if(event->timerId()==timer.timerId()){
-        if(state==RUN&&command!=HELP)
-        {
-            snake.QSmove();
-            if(snake.QSeat())
-            {
-                score+=3;
-                level=score/10;
-                snake.QSgrow();
-                emit scoreChanged(score);
-                emit levelChanged(level);
-            }
-            if(!snake.QSalive())
-            {
-                state=END;
-            }
-            update();
-        }
-        if(command==HELP)
-        {
-            update();
-        }
-        timer.start(timeoutTime(),this);
-    }
-}
+
+
 
 
 

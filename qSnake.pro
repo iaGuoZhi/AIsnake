@@ -37,7 +37,8 @@ SOURCES += \
     shareinfo.cpp \
     environment.cpp \
     snakeboard.cpp \
-    singlesnakeboard.cpp
+    singlesnakeboard.cpp \
+    doublesnakeboard.cpp
 
 
 HEADERS += \
@@ -52,7 +53,8 @@ HEADERS += \
     shareinfo.h \
     environment.h \
     snakeboard.h \
-    singlesnakeboard.h
+    singlesnakeboard.h \
+    doublesnakeboard.h
 
 FORMS +=
 
