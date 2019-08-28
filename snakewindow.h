@@ -6,6 +6,7 @@
 #include<QString>
 
 #include "singlesnakeboard.h"
+#include "doublesnakeboard.h"
 #include "shareinfo.h"
 
 QT_BEGIN_NAMESPACE
@@ -28,13 +29,15 @@ public:
 signals:
     void backHomepage();
 private:
-    GAMEMODE mode;
-    THEME theme;
-    int difficulty;
+    GAMEMODE mode=GAMEMODE::SINGLEPLAYER;
+    THEME theme=THEME::COSTOM_FOREST;
+    int difficulty=50;
 
     QString difficultyString;
 
-    singlesnakeboard *board;
+    singlesnakeboard *singleboard;
+    doubleSnakeBoard *doubleboard;
+
 
     QLCDNumber *scoreLcd1;
     QLCDNumber *scoreLcd2;
@@ -47,6 +50,7 @@ private:
     QPushButton *helpButton;
 
     QLabel *createLabel(const QString &text);
+    void reconnectAsOrder();
 public:
 
     void remakeAsOrder(GAMEMODE mode,THEME theme,int difficulty);

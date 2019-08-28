@@ -6,7 +6,6 @@
 
 SnakeWindow::SnakeWindow()
 {
-    board=new singlesnakeboard;
     scoreLcd1=new QLCDNumber(5);
     scoreLcd1->setSegmentStyle(QLCDNumber::Filled);
     levelLcd1=new QLCDNumber(5);
@@ -25,26 +24,62 @@ SnakeWindow::SnakeWindow()
     pauseButton->setFocusPolicy(Qt::NoFocus);
     helpButton=new QPushButton(tr("&Help"));
     helpButton->setFocusPolicy(Qt::NoFocus);
-
-    connect(startButton, &QPushButton::clicked, board, &singlesnakeboard::start);
-    connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
-    connect(pauseButton, &QPushButton::clicked, board, &singlesnakeboard::pause);
-    connect(helpButton,&QPushButton::clicked,board,&singlesnakeboard::help);
-
-#if __cplusplus >= 201402L
-    connect(board, &singlesnakeboard::scoreChanged,
-            scoreLcd1, qOverload<int>(&QLCDNumber::display));
-    connect(board, &singlesnakeboard::levelChanged,
-            levelLcd1, qOverload<int>(&QLCDNumber::display));
-#else
-    connect(board, &singlesnakeboard::scoreChanged,
-            scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
-    connect(board, &singlesnakeboard::levelChanged,
-            levelLcd1, QOverload<int>::of(&QLCDNumber::display));
-
-#endif
 }
 
+void SnakeWindow::reconnectAsOrder()
+{
+    switch (this->mode) {
+    case GAMEMODE::SINGLEPLAYER:
+        singleboard=new singlesnakeboard();
+
+        connect(startButton, &QPushButton::clicked, singleboard, &singlesnakeboard::start);
+        connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
+        connect(pauseButton, &QPushButton::clicked, singleboard, &singlesnakeboard::pause);
+        connect(helpButton,&QPushButton::clicked,singleboard,&singlesnakeboard::help);
+
+    #if __cplusplus >= 201402L
+        connect(singleboard, &singlesnakeboard::scoreChanged,
+                scoreLcd1, qOverload<int>(&QLCDNumber::display));
+        connect(singleboard, &singlesnakeboard::level1Changed,
+                levelLcd1, qOverload<int>(&QLCDNumber::display));
+    #else
+        connect(singleboard, &singlesnakeboard::score1Changed,
+                scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(singleboard, &singlesnakeboard::level1Changed,
+                levelLcd1, QOverload<int>::of(&QLCDNumber::display));
+
+    #endif
+        break;
+    case GAMEMODE::DOUBLEPLAYER:
+        doubleboard=new doubleSnakeBoard();
+
+        connect(startButton, &QPushButton::clicked, doubleboard, &doubleSnakeBoard::start);
+        connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
+        connect(pauseButton, &QPushButton::clicked, doubleboard, &doubleSnakeBoard::pause);
+        connect(helpButton,&QPushButton::clicked,doubleboard,&doubleSnakeBoard::help);
+
+#if __cplusplus >= 201402L
+    connect(doubleboard, &singlesnakeboard::scoreChanged,
+            scoreLcd1, qOverload<int>(&QLCDNumber::display));
+    connect(doubleboard, &singlesnakeboard::level1Changed,
+            levelLcd1, qOverload<int>(&QLCDNumber::display));
+#else
+    connect(doubleboard, &doubleSnakeBoard::score1Changed,
+            scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
+    connect(doubleboard, &doubleSnakeBoard::level1Changed,
+            levelLcd1, QOverload<int>::of(&QLCDNumber::display));
+    connect(doubleboard, &doubleSnakeBoard::score2Changed,
+            scoreLcd2, QOverload<int>::of(&QLCDNumber::display));
+    connect(doubleboard, &doubleSnakeBoard::level2Changed,
+            levelLcd2, QOverload<int>::of(&QLCDNumber::display));
+
+#endif
+
+
+    default:
+        break;
+    }
+}
 QLabel *SnakeWindow::createLabel(const QString &text)
 {
     QLabel *label = new QLabel(text);
@@ -87,12 +122,15 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
 
     QGridLayout *layout=new QGridLayout;
 
+    /*reconnect signal and slot acoording to mode*/
+    reconnectAsOrder();
+
     /*draw game window according to game mode*/
     switch(this->mode)
     {
     case GAMEMODE::SINGLEPLAYER:  case GAMEMODE::WATCHAIPLAY:
 
-        layout->addWidget(board, 0, 0,11,16);
+        layout->addWidget(singleboard, 0, 0,11,16);
         if(this->mode==SINGLEPLAYER)
         layout->addWidget(createLabel(tr("单人游戏")),0,16,1,2);
         else{
@@ -127,7 +165,7 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
         layout->addWidget(pauseButton,10,0,2,2);
 
         /*游戏区*/
-        layout->addWidget(board,0,2,12,16);
+        layout->addWidget(doubleboard,0,2,12,16);
 
         /*右边信息区*/
         layout->addWidget(createLabel(tr("玩家一")),0,18,1,2);

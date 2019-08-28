@@ -19,19 +19,19 @@ public slots:
     void start();
 
 signals:
-    void scoreChanged(int score);
-    void levelChanged(int level);
+    void score1Changed(int score);
+    void level1Changed(int level);
 
 private:
 
-    int level;
-    int score;
+    int level1;
+    int score1;
     Snake snake;
     QBasicTimer timer;
 
     int timeoutTime()
     {
-        return 400/(1+level);
+        return 400/(1+level1);
     }
 
 protected:

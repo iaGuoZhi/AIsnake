@@ -7,8 +7,8 @@ singlesnakeboard::singlesnakeboard(QWidget *parent)
     : snakeboard(parent)
 {
     init();
-    score=0;
-    score=0;
+    score1=0;
+    level1=0;
     timer.start(timeoutTime(), this);
 }
 
@@ -16,12 +16,10 @@ void singlesnakeboard::start()
 {
     qDebug()<<"arrive start";
     state=RUN;
-    score=0;
-    level=0;
     snake.initSnake();
 
-    emit scoreChanged(score);
-    emit levelChanged(level);
+    emit score1Changed(score1);
+    emit level1Changed(level1);
 }
 
 void singlesnakeboard::keyPressEvent(QKeyEvent *event)
@@ -57,11 +55,11 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
             snake.QSmove();
             if(snake.QSeat())
             {
-                score+=3;
-                level=score/10;
+                score1+=3;
+                level1=score1/10;
                 snake.QSgrow();
-                emit scoreChanged(score);
-                emit levelChanged(level);
+                emit score1Changed(score1);
+                emit level1Changed(level1);
             }
             if(!snake.QSalive())
             {
