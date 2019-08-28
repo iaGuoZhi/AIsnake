@@ -22,16 +22,9 @@
 #include <QtGlobal>    //get random data
 #include<QPainter>
 #include"unit.h"
+#include"shareinfo.h"
 
-enum{
-    BOARDWIDTH=79,
-    BOARDHEIGHT=60,
-    BRICKWIDTH=7,
-    BRICKHEIGHT=5
-}; //set the amount of unit a board can hold
-enum DIRECTION{
-    RIGHT,DOWN,UP,LEFT
-};
+const int FOODNUMBER=1;
 
 class environment: public QFrame  //继承qframe to enable the ability to draw
 {
@@ -41,9 +34,13 @@ public:
     QVector<Unit> QVbrick;
     QVector<Unit> QVfoodbrick;       //array of the left-top point in the blocks of QVbrick, which can help generate food in the block;
     void drawSquare(QPainter &painter,int x,int y,int color,int squarewidth,int squareheight);
-    void createFood(int index,QVector<Unit> virtualSnake);
+    void createFood();
+    void createFood(int index);
     void createBrick();
     void createBorder();
+    void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
+    void initEnvironment();
+    bool isHideBuff(int index);
 
 };
 

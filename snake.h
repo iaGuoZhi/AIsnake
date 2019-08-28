@@ -8,21 +8,24 @@
 #include <QtGlobal>    //get random data
 #include<QPainter>
 #include"unit.h"
-#include"environment.h"
+#include "shareinfo.h"
+#include "environment.h"
 
 
 
-
-class Snake: public environment
+class Snake
 {
+    /*作为友元，可直接访问environment中的私有成员*/
+    friend class environment;
+
+
+
     //Q_OBJECT
-    const int FOODNUMBER=1;            //food amount is not changed
     const int SNAKELENGTH=3;
-    const int SNAKEHEADX=40;
-    const int SNAKEHEADY=30;
+
 
 public:
-    Snake();
+    Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection);
     void initSnake();
     void QSmove();
 
@@ -31,16 +34,26 @@ public:
      * 1-----normal eat
      * 2-----eat hide buff
      * ********/
-    int QSeat();
+    int QSeat(QVector<Unit> virturalFood);
     void QSgrow();
-    bool QSalive();
+    bool QSalive(QVector<Unit> virtualBrick);
     void hide();
+    bool QSquickGrow(int size);
+    bool QSquickShort(int size);
     void QSchangeDirection(DIRECTION direction);
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
-    QVector<Unit> QVsnake;           //为了paint，暂时public
+    void drawSquare(QPainter &painter,int x,int y,int color,int squarewidth,int squareheight);
+
+    /* return type: -1 not captured,0-n the index of the snake,0 means head*/
+    int capture(QVector<Unit> initialSnake);
 private:
+    QVector<Unit> QVsnake;
     DIRECTION Sdirection;
     bool ishiding=false;
+    int snakeheadx;
+    int snakeheady;
+    int snakecolor;
+
 
 
 };

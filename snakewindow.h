@@ -43,6 +43,8 @@ private:
     QLCDNumber *scoreLcd2;
     QLCDNumber *levelLcd1;
     QLCDNumber *levelLcd2;
+    QLCDNumber *hideTimesLcd1;
+    QLCDNumber *hideTimesLcd2;
 
     QPushButton *startButton;
     QPushButton *quitButton;

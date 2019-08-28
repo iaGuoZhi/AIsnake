@@ -16,6 +16,13 @@ SnakeWindow::SnakeWindow()
     levelLcd2=new QLCDNumber(5);
     levelLcd2->setSegmentStyle(QLCDNumber::Filled);
 
+    hideTimesLcd1=new QLCDNumber(5);
+    hideTimesLcd1->setSegmentStyle(QLCDNumber::Filled);
+    hideTimesLcd2=new QLCDNumber(5);
+    hideTimesLcd2->setSegmentStyle(QLCDNumber::Filled);
+
+
+
     startButton = new QPushButton(tr("&Start"));
     startButton->setFocusPolicy(Qt::NoFocus);
     quitButton = new QPushButton(tr("&Quit"));
@@ -37,18 +44,13 @@ void SnakeWindow::reconnectAsOrder()
         connect(pauseButton, &QPushButton::clicked, singleboard, &singlesnakeboard::pause);
         connect(helpButton,&QPushButton::clicked,singleboard,&singlesnakeboard::help);
 
-    #if __cplusplus >= 201402L
-        connect(singleboard, &singlesnakeboard::scoreChanged,
-                scoreLcd1, qOverload<int>(&QLCDNumber::display));
-        connect(singleboard, &singlesnakeboard::level1Changed,
-                levelLcd1, qOverload<int>(&QLCDNumber::display));
-    #else
         connect(singleboard, &singlesnakeboard::score1Changed,
                 scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
         connect(singleboard, &singlesnakeboard::level1Changed,
                 levelLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(singleboard,&singlesnakeboard::hidetimesChanged,
+                hideTimesLcd1,QOverload<int>::of(&QLCDNumber::display));
 
-    #endif
         break;
     case GAMEMODE::DOUBLEPLAYER:
         doubleboard=new doubleSnakeBoard();
@@ -58,22 +60,18 @@ void SnakeWindow::reconnectAsOrder()
         connect(pauseButton, &QPushButton::clicked, doubleboard, &doubleSnakeBoard::pause);
         connect(helpButton,&QPushButton::clicked,doubleboard,&doubleSnakeBoard::help);
 
-#if __cplusplus >= 201402L
-    connect(doubleboard, &singlesnakeboard::scoreChanged,
-            scoreLcd1, qOverload<int>(&QLCDNumber::display));
-    connect(doubleboard, &singlesnakeboard::level1Changed,
-            levelLcd1, qOverload<int>(&QLCDNumber::display));
-#else
-    connect(doubleboard, &doubleSnakeBoard::score1Changed,
-            scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
-    connect(doubleboard, &doubleSnakeBoard::level1Changed,
-            levelLcd1, QOverload<int>::of(&QLCDNumber::display));
-    connect(doubleboard, &doubleSnakeBoard::score2Changed,
-            scoreLcd2, QOverload<int>::of(&QLCDNumber::display));
-    connect(doubleboard, &doubleSnakeBoard::level2Changed,
-            levelLcd2, QOverload<int>::of(&QLCDNumber::display));
-
-#endif
+        connect(doubleboard, &doubleSnakeBoard::score1Changed,
+                scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(doubleboard, &doubleSnakeBoard::level1Changed,
+                levelLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(doubleboard, &doubleSnakeBoard::score2Changed,
+                scoreLcd2, QOverload<int>::of(&QLCDNumber::display));
+        connect(doubleboard, &doubleSnakeBoard::level2Changed,
+                levelLcd2, QOverload<int>::of(&QLCDNumber::display));
+        connect(doubleboard,&doubleSnakeBoard::hidetimes1Changed,
+                hideTimesLcd1,QOverload<int>::of(&QLCDNumber::display));
+        connect(doubleboard,&doubleSnakeBoard::hidetimes2Changed,
+                hideTimesLcd2,QOverload<int>::of(&QLCDNumber::display));
 
 
     default:
@@ -130,21 +128,24 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
     {
     case GAMEMODE::SINGLEPLAYER:  case GAMEMODE::WATCHAIPLAY:
 
-        layout->addWidget(singleboard, 0, 0,11,16);
+        layout->addWidget(singleboard, 0, 0,13,18);
         if(this->mode==SINGLEPLAYER)
-        layout->addWidget(createLabel(tr("单人游戏")),0,16,1,2);
+        layout->addWidget(createLabel(tr("单人游戏")),0,18,1,2);
         else{
-            layout->addWidget(createLabel(tr("AI贪吃蛇")),0,16,1,2);
+            layout->addWidget(createLabel(tr("AI贪吃蛇")),0,18,1,2);
         }
-        layout->addWidget(createLabel(tr("等级")), 1, 16,1,2);
-        layout->addWidget(levelLcd1, 2, 16,1,2);
-        layout->addWidget(createLabel(tr("分数")), 3, 16,1,2);
-        layout->addWidget(scoreLcd1, 4, 16,1,2);
-        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),5,16,1,2);
-        layout->addWidget(startButton, 6, 16,1,2);
-        layout->addWidget(pauseButton, 7, 16,1,2);
-        layout->addWidget(helpButton,8,16,1,2);
-        layout->addWidget(quitButton, 9, 16,1,2);
+        layout->addWidget(createLabel(tr("等级")), 1, 18,1,2);
+        layout->addWidget(levelLcd1, 2, 18,1,2);
+        layout->addWidget(createLabel(tr("分数")), 3, 18,1,2);
+        layout->addWidget(scoreLcd1, 4, 18,1,2);
+        layout->addWidget(createLabel(tr("剩余隐身数")),5,18,1,2);
+        layout->addWidget(hideTimesLcd1,6,18,1,2);
+        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,18,1,2);
+
+        layout->addWidget(startButton, 8, 18,2,2);
+        layout->addWidget(pauseButton, 10, 18,1,2);
+        layout->addWidget(helpButton,11,18,1,2);
+        layout->addWidget(quitButton, 12, 18,1,2);
         break;
 
     case GAMEMODE::DOUBLEPLAYER: case GAMEMODE::PLAYWITHAI:
@@ -158,26 +159,30 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
         layout->addWidget(levelLcd2,2,0,1,2);
         layout->addWidget(createLabel(tr("分数")),3,0,1,2);
         layout->addWidget(scoreLcd2,4,0,1,2);
-        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),5,0,1,2);
-        layout->addWidget(createLabel(tr("AWSD方向")),6,0,1,2);
-        layout->addWidget(createLabel(tr("Q键隐身")),7,0,1,2);
-        layout->addWidget(helpButton,8,0,2,2);
-        layout->addWidget(pauseButton,10,0,2,2);
+        layout->addWidget(createLabel(tr("剩余隐身数")),5,0,1,2);
+        layout->addWidget(hideTimesLcd2,6,0,1,2);
+        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,0,1,2);
+        layout->addWidget(createLabel(tr("AWSD方向")),8,0,1,2);
+        layout->addWidget(createLabel(tr("Q键隐身")),9,0,1,2);
+        layout->addWidget(helpButton,10,0,2,2);
+        layout->addWidget(pauseButton,12,0,2,2);
 
         /*游戏区*/
-        layout->addWidget(doubleboard,0,2,12,16);
+        layout->addWidget(doubleboard,0,2,14,24);
 
         /*右边信息区*/
-        layout->addWidget(createLabel(tr("玩家一")),0,18,1,2);
-        layout->addWidget(createLabel(tr("等级")),1,18,1,2);
-        layout->addWidget(levelLcd1,2,18,1,2);
-        layout->addWidget(createLabel(tr("分数")),3,18,1,2);
-        layout->addWidget(scoreLcd1,4,18,1,2);
-        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),5,18,1,2);
-        layout->addWidget(createLabel(tr("方向键移动")),6,18,1,2);
-        layout->addWidget(createLabel(tr("?键隐身")),7,18,1,2);
-        layout->addWidget(startButton,8,18,2,2);
-        layout->addWidget(quitButton,10,18,2,2);
+        layout->addWidget(createLabel(tr("玩家一")),0,26,1,2);
+        layout->addWidget(createLabel(tr("等级")),1,26,1,2);
+        layout->addWidget(levelLcd1,2,26,1,2);
+        layout->addWidget(createLabel(tr("分数")),3,26,1,2);
+        layout->addWidget(scoreLcd1,4,26,1,2);
+        layout->addWidget(createLabel(tr("剩余隐身数")),5,26,1,2);
+        layout->addWidget(hideTimesLcd1,6,26,1,2);
+        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,26,1,2);
+        layout->addWidget(createLabel(tr("方向键移动")),8,26,1,2);
+        layout->addWidget(createLabel(tr("?键隐身")),9,26,1,2);
+        layout->addWidget(startButton,10,26,2,2);
+        layout->addWidget(quitButton,12,26,2,2);
 
         break;
     }
@@ -185,5 +190,5 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
     setLayout(layout);
 
     setWindowTitle(tr("QSnake"));
-    resize(830,500);
+    resize(1000,600);
 }

@@ -1,15 +1,31 @@
 #include "environment.h"
 
 #include "unit.h"
+#include<QDebug>
 
 environment::environment()
 {
-    createBrick();
+
 }
 
-/* create food,to avoid the new food location is coincidly the body of snake,use a function
-    to seperate food with snake,using an array of virtualSnake*/
-void environment::createFood(int index,QVector<Unit> virtualSnake)
+void environment::initEnvironment()
+{
+    createBrick();
+    createFood();
+}
+void environment::createFood()
+{
+    for(int i=0;i<FOODNUMBER;++i)
+    {
+        QVfood.append(Unit(0,0,2));
+    }
+    for(int i=0;i<FOODNUMBER;++i)
+    {
+        createFood(i);
+    }
+}
+
+void environment::createFood(int index)
 {
     int randomx,randomy;
     bool overlapflag=false;               //judge new created food's position is overlaped or not
@@ -17,15 +33,9 @@ void environment::createFood(int index,QVector<Unit> virtualSnake)
     {
         overlapflag=false;
         qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-        randomx=qrand()%BOARDWIDTH;
-        randomy=qrand()%BOARDHEIGHT;
-        for(int j=0;j<virtualSnake.size();++j)
-        {
-            if(virtualSnake[j].getUnitX()==randomx&&virtualSnake[j].getUnitY()==randomy)
-            {
-                overlapflag=true;
-            }
-        }        for(int j=0;j<QVfood.size();++j)
+        randomx=qrand()%(BOARDWIDTH-1)+1;
+        randomy=qrand()%(BOARDHEIGHT-1)+1;
+        for(int j=0;j<QVfood.size();++j)
         {
             if(j==index)
                 continue;
@@ -89,15 +99,15 @@ void environment::createBrick()
 
 void environment::createBorder()
 {
-    for(int i=0;i<=BOARDWIDTH;++i)
+    for(int i=0;i<BOARDWIDTH;++i)
     {
         QVbrick.append(Unit(i,0,3));
-        QVbrick.append(Unit(i,BOARDHEIGHT,3));
+        QVbrick.append(Unit(i,BOARDHEIGHT-1,3));
     }
-    for(int i=0;i<=BOARDHEIGHT;++i)
+    for(int i=0;i<BOARDHEIGHT;++i)
     {
         QVbrick.append(Unit(0,i,3));
-        QVbrick.append(Unit(BOARDWIDTH,i,3));
+        QVbrick.append(Unit(BOARDWIDTH-1,i,3));
     }
 }
 
@@ -123,4 +133,27 @@ void environment::drawSquare(QPainter &painter, int x, int y, int shape,int squa
                      x + squarewidth - 1, y + squareheight - 1);
     painter.drawLine(x + squarewidth - 1, y + squareheight - 1,
                      x + squarewidth - 1, y + 1);
+}
+
+/*draw food and brick*/
+void environment::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardLeft,int boardTop)
+{
+    for(int i=0;i<QVbrick.size();++i)
+    {
+        drawSquare(painter,boardLeft+QVbrick[i].getUnitX()*squarewidth,boardTop+QVbrick[i].getUnitY()*squareheight,QVbrick[i].getUnitColor(),squarewidth,squareheight);
+    }
+    for(int i=0;i<QVfood.size();++i)
+    {
+        drawSquare(painter,boardLeft+QVfood[i].getUnitX()*squarewidth,boardTop+QVfood[i].getUnitY()*squareheight,QVfood[i].getUnitColor(),squarewidth,squareheight);
+    }
+}
+
+bool environment::isHideBuff(int index)
+{
+    if(index<0||index>QVfood.size())
+        return false;
+    if(QVfood[index].getUnitDescribe()=="hideBuff")
+        return true;
+    else
+        return false;
 }

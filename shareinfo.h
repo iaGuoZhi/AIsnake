@@ -28,6 +28,19 @@ enum DIFFICULTY{
     VERY_HARD
 };
 
+
+enum{
+    BOARDWIDTH=76,
+    BOARDHEIGHT=64,
+    BRICKWIDTH=7,
+    BRICKHEIGHT=5
+}; //set the amount of unit a board can hold
+enum DIRECTION{
+    RIGHT,DOWN,UP,LEFT
+};
+
+const int SNAKEHEADX=38;
+const int SNAKEHEADY=30;
 class shareinfo
 {
 public:

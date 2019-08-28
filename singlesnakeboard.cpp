@@ -16,13 +16,16 @@ singlesnakeboard::singlesnakeboard(QWidget *parent)
 
 void singlesnakeboard::start()
 {
-    qDebug()<<"arrive start";
     state=RUN;
-    snake.initSnake();
+    environ.initEnvironment();
+    snake=new Snake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT);
+    snake->initSnake();
 
     emit score1Changed(score1);
     emit level1Changed(level1);
+    emit hidetimesChanged(remainhidetimes);
 }
+
 
 void singlesnakeboard::keyPressEvent(QKeyEvent *event)
 {
@@ -33,23 +36,24 @@ void singlesnakeboard::keyPressEvent(QKeyEvent *event)
     }
     switch (event->key()) {
         case Qt::Key_Left:
-        snake.QSchangeDirection(LEFT);
+        snake->QSchangeDirection(LEFT);
             break;
         case Qt::Key_Right:
-            snake.QSchangeDirection(RIGHT);
+            snake->QSchangeDirection(RIGHT);
             break;
         case Qt::Key_Down:
-            snake.QSchangeDirection(DOWN);
+            snake->QSchangeDirection(DOWN);
             break;
         case Qt::Key_Up:
-            snake.QSchangeDirection(UP);
+            snake->QSchangeDirection(UP);
             break;
         case Qt::Key_Shift:
-            if(remainhidetimes>0)
+            if(remainhidetimes>0&&hideleft==0)
             {
-                qDebug()<<"key is right";
                 hideleft+=HIDELENGTH;
                 remainhidetimes-=1;
+                emit hidetimesChanged(remainhidetimes);
+
             }
         break;
     default:
@@ -65,28 +69,29 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
         {
             if(this->hideleft>0)
             {
-                qDebug()<<"arrive hide";
-                snake.hide();
+                snake->hide();
                 this->hideleft-=1;
             }
-            snake.QSmove();
-            eatResult=snake.QSeat();
-            if(eatResult>0)
+            snake->QSmove();
+            eatResult=snake->QSeat(environ.QVfood);
+            if(eatResult!=-1)
             {
                 score1+=3;
                 level1=score1/10;
-                snake.QSgrow();
+                snake->QSgrow();
                 emit score1Changed(score1);
                 emit level1Changed(level1);
 
-                if(eatResult==2)
+                if(environ.isHideBuff(eatResult))
                 {
                     this->remainhidetimes+=1;
                     qDebug()<<this->remainhidetimes;
                     emit hidetimesChanged(this->remainhidetimes);
+
                 }
+                environ.createFood(eatResult);
             }
-            if(!snake.QSalive())
+            if(!snake->QSalive(environ.QVbrick))
             {
                 state=END;
             }
@@ -111,9 +116,10 @@ void singlesnakeboard::paintEvent(QPaintEvent *paint)
         p.setFont(font);
         p.setPen(Qt::green);
         QRect rect=contentsRect();
-        int boardTop = rect.top();
+        int boardTop =rect.top();
         int boardLeft=rect.left();
-        snake.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
+        environ.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
+        snake->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         p.end();
     }
 

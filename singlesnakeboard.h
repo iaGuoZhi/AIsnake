@@ -7,6 +7,8 @@
 #include <QFrame>
 #include <QPointer>
 #include "snake.h"
+#include"environment.h"
+#include"shareinfo.h"
 
 class singlesnakeboard:public snakeboard
 {
@@ -30,7 +32,9 @@ private:
     int remainhidetimes=0;   //可以隐身的次数
     int hideleft=0;         //这次隐身剩下的时间
 
-    Snake snake;
+    environment environ;
+    Snake *snake;
+
     QBasicTimer timer;
 
     int timeoutTime()
