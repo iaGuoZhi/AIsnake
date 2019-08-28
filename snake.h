@@ -25,14 +25,23 @@ public:
     Snake();
     void initSnake();
     void QSmove();
-    bool QSeat();
+
+    /* there three kinds of return type:
+     * 0-----not eat
+     * 1-----normal eat
+     * 2-----eat hide buff
+     * ********/
+    int QSeat();
     void QSgrow();
     bool QSalive();
+    void hide();
     void QSchangeDirection(DIRECTION direction);
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
     QVector<Unit> QVsnake;           //为了paint，暂时public
 private:
     DIRECTION Sdirection;
+    bool ishiding=false;
+
 
 };
 

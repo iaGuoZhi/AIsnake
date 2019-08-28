@@ -1,6 +1,6 @@
 #ifndef UNIT_H
 #define UNIT_H
-
+#include<QString>
 
 class Unit
 {
@@ -12,6 +12,13 @@ public:
         UnitX=x;
         UnitY=y;
         UnitColor=color;
+    }
+    Unit(int x, int y, int color,QString unitDescribe)
+    {
+        UnitX=x;
+        UnitY=y;
+        UnitColor=color;
+        UnitDescribe=unitDescribe;
     }
     int getUnitX()
     {
@@ -37,11 +44,19 @@ public:
     {
         UnitColor=color;
     }
+    QString getUnitDescribe()
+    {
+        return UnitDescribe;
+    }
+    void setUnitDescribe(QString unitDEscribe)
+    {
+        this->UnitDescribe=unitDEscribe;
+    }
 private:
     int UnitX;
     int UnitY;
     int UnitColor;
-
+    QString UnitDescribe="";
 
 };
 

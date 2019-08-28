@@ -18,6 +18,8 @@ enum COMMAND{
     HELP,EMPTY
 };
 
+const int HIDELENGTH=8;
+
 class snakeboard : public QFrame
 {
     Q_OBJECT

@@ -61,18 +61,24 @@ void Snake::QSgrow()
 }
 
 /*judge eating using the head of snake*/
-bool Snake::QSeat()
+int Snake::QSeat()
 {
+    int result=0;
     for(int i=0;i<QVfood.size();++i)
     {
         if(QVfood[i].getUnitX()==QVsnake[0].getUnitX()&&QVfood[i].getUnitY()==QVsnake[0].getUnitY())  //snake head
         {
-            qDebug()<<"begin eat";
+            /* return 2 means snake eat a food which has a hidebuff*/
+            if(QVfood[i].getUnitDescribe()=="hideBuff")
+            {
+                result=2;
+            }
+            else result=1;
             createFood(i,QVsnake);
-            return true;
+            return result;
         }
     }
-    return false;
+    return result;
 }
 
 /* judge the snake is alive or not*/
@@ -122,9 +128,18 @@ void Snake::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardL
     {
         drawSquare(painter,boardLeft+QVfood[i].getUnitX()*squarewidth,boardTop+QVfood[i].getUnitY()*squareheight,QVfood[i].getUnitColor(),squarewidth,squareheight);
     }
-    for(int i=0;i<QVsnake.size();++i)
-    {
-        drawSquare(painter,boardLeft+QVsnake[i].getUnitX()*squarewidth,boardTop+QVsnake[i].getUnitY()*squareheight,QVsnake[i].getUnitColor(),squarewidth,squareheight);
-    }
+     if(ishiding==false)
+     {
+        for(int i=0;i<QVsnake.size();++i)
+        {
+            drawSquare(painter,boardLeft+QVsnake[i].getUnitX()*squarewidth,boardTop+QVsnake[i].getUnitY()*squareheight,QVsnake[i].getUnitColor(),squarewidth,squareheight);
+        }
+     }
+    ishiding=false;
+}
 
+
+void Snake::hide()
+{
+    ishiding=true;
 }

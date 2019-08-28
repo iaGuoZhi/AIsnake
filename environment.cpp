@@ -48,6 +48,11 @@ void environment::createFood(int index,QVector<Unit> virtualSnake)
         {
             QVfood[index].setUnitX(randomx);
             QVfood[index].setUnitY(randomy);
+            if(qrand()%2==0)
+            {
+                QVfood[index].setUnitColor(4);
+                QVfood[index].setUnitDescribe("hideBuff");
+            }
             return;
         }                                     //circulate till the right position is created
     }

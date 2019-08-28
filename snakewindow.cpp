@@ -185,5 +185,5 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
     setLayout(layout);
 
     setWindowTitle(tr("QSnake"));
-    resize(700,450);
+    resize(830,500);
 }
