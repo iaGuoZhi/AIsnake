@@ -21,8 +21,10 @@ Homepage::Homepage(QWidget *parent):QDialog(parent)
     createThemeGroupBox();
     createDifficultyGroupBox();
 
+    window=new SnakeWindow();
+    connect(window,SIGNAL(backHomepage()),this,SLOT(backHomepageFunc()));
 
-    beginButton=new QPushButton(tr("开始游戏"));
+    beginButton= new QPushButton(tr("开始游戏"));
     connect(beginButton,SIGNAL(clicked()),this,SLOT(beginClickFunc()));
     quitButton=new QPushButton(tr("退出游戏"));
     connect(quitButton,&QPushButton::clicked,qApp, &QApplication::quit);
@@ -58,7 +60,6 @@ void Homepage::createThemeGroupBox()
 
     connect(styleComboBox,SIGNAL(activated(QString)),this,SLOT(changeStyle(QString)));
 
-    connect(&window,SIGNAL(backHomepage()),this,SLOT(backHomepageFunc()));
     QVBoxLayout *layout=new QVBoxLayout;
      layout->addWidget(styleLabel);
      layout->addWidget(styleComboBox);
@@ -134,7 +135,7 @@ void Homepage::createDifficultyGroupBox()
     difficultyGroupBox=new QGroupBox(tr("设置难度"));
     difficultySlider=new QSlider(Qt::Horizontal,difficultyGroupBox);
     difficultySlider->setValue(50);
-
+    connect(difficultySlider,SIGNAL(sliderMoved(int)),this,SLOT(setValue(int)));
     QVBoxLayout *layout=new QVBoxLayout;
     layout->addWidget(difficultySlider);
     layout->addStretch(1);
@@ -172,6 +173,7 @@ void Homepage::infoClickFunc()
 
 void Homepage::beginClickFunc()
 {
+
     /*keep the checked mode*/
     if(singlePlayerButton->isChecked())
     {
@@ -215,16 +217,21 @@ void Homepage::beginClickFunc()
     /*keep the difficulty value*/
     this->difficulty=difficultySlider->value();
 
-    window.remakeAsOrder(this->mode,this->theme,this->difficulty);
+
+    window->remakeAsOrder(this->mode,this->theme,this->difficulty/20);
 
     this->hide();
-    window.show();
+
+    window->show();
 }
 
 void Homepage::backHomepageFunc()
 {
-    window.hide();
+    window=new SnakeWindow();
+    connect(window,SIGNAL(backHomepage()),this,SLOT(backHomepageFunc()));
+    qDebug()<<"before homepage show";
     this->show();
+    qDebug()<<"after homepage show";
 }
 
 

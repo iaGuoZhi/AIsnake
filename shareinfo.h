@@ -20,6 +20,14 @@ enum THEME{
     SYSTEM_FUSION
 };
 
+enum DIFFICULTY{
+    VERY_EASY,
+    EASY,
+    MEDIUM,
+    HARD,
+    VERY_HARD
+};
+
 class shareinfo
 {
 public:

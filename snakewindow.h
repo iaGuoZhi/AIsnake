@@ -3,8 +3,9 @@
 #define SNAKEWINDOW_H
 #include <QFrame>
 #include<QWidget>
+#include<QString>
 
-#include "snakeborder.h"
+#include "snakeboard.h"
 #include "shareinfo.h"
 
 QT_BEGIN_NAMESPACE
@@ -12,13 +13,16 @@ class QLCDNumber;
 class QLabel;
 class QPushButton;
 QT_END_NAMESPACE
-class SnakeBorder;
+class snakeboard;
 
 class SnakeWindow: public QWidget
 {
     Q_OBJECT
 public:
     SnakeWindow();
+    ~SnakeWindow(){
+        quit();
+    }
     void quit();
 
 signals:
@@ -28,10 +32,15 @@ private:
     THEME theme;
     int difficulty;
 
-    SnakeBorder *board;
+    QString difficultyString;
 
-    QLCDNumber *scoreLcd;
-    QLCDNumber *levelLcd;
+    snakeboard *board;
+
+    QLCDNumber *scoreLcd1;
+    QLCDNumber *scoreLcd2;
+    QLCDNumber *levelLcd1;
+    QLCDNumber *levelLcd2;
+
     QPushButton *startButton;
     QPushButton *quitButton;
     QPushButton *pauseButton;

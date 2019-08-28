@@ -40,11 +40,12 @@ private:
     void createThemeGroupBox();
     void createDifficultyGroupBox();
 
-    SnakeWindow window;
 
     THEME theme;
     int difficulty;
     GAMEMODE mode;
+
+    SnakeWindow *window;
 
 
     QPalette originalPalette;

@@ -1,12 +1,10 @@
 #define QT_NO_OPENGL
-#ifndef SNAKEBORDER_H
-#define SNAKEBORDER_H
+#ifndef snakeboard_H
+#define snakeboard_H
 
 #include <QBasicTimer>
 #include <QFrame>
 #include <QPointer>
-
-#include <QPainter>
 
 #include "snake.h"
 
@@ -14,7 +12,7 @@ QT_BEGIN_NAMESPACE
 class QLabel;
 QT_END_NAMESPACE
 
-class SnakeBorder : public QFrame
+class snakeboard : public QFrame
 {
     Q_OBJECT
     enum STATE{
@@ -25,7 +23,7 @@ class SnakeBorder : public QFrame
     };
 
 public:
-    SnakeBorder(QWidget *parent=0);
+    snakeboard(QWidget *parent=0);
 
 
 public slots:
@@ -58,8 +56,8 @@ private:
     int squareHeight() { return contentsRect().height() / BOARDHEIGHT; }
     int timeoutTime()
     {
-        return 1000/(1+level);
+        return 400/(1+level);
     }
 };
 
-#endif // SNAKEBORDER_H
+#endif // snakeboard_H

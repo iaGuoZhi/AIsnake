@@ -1,14 +1,13 @@
 #define QT_NO_OPENGL
-#include "snakeborder.h"
+#include "snakeboard.h"
+
 #include <QtWidgets>
 #include<QDebug>
 #include<QString>
-SnakeBorder::SnakeBorder(QWidget *parent)
-: QFrame(parent)
-{
 
-    setObjectName("myframe");
-    setStyleSheet("QFrame#myframe{border-image:url(../qSnake/images/ditu.jpg)}" );
+snakeboard::snakeboard(QWidget *parent)
+    : QFrame(parent)
+{
     setFocusPolicy(Qt::StrongFocus);
     level=0;
     state=WAIT;
@@ -17,18 +16,19 @@ SnakeBorder::SnakeBorder(QWidget *parent)
     timer.start(timeoutTime(), this);
 }
 
-void SnakeBorder::start()
+void snakeboard::start()
 {
-
+    qDebug()<<"arrive start";
     state=RUN;
     score=0;
     level=0;
     snake.initSnake();
+
     emit scoreChanged(score);
     emit levelChanged(level);
 }
 
-void SnakeBorder::pause()
+void snakeboard::pause()
 {
     if(state==RUN)
     {
@@ -41,7 +41,7 @@ void SnakeBorder::pause()
     }
 }
 
-void SnakeBorder::help()
+void snakeboard::help()
 {
     if(command!=HELP)
     command=HELP;
@@ -50,7 +50,7 @@ void SnakeBorder::help()
         command=EMPTY;
     }
 }
-void SnakeBorder::keyPressEvent(QKeyEvent *event)
+void snakeboard::keyPressEvent(QKeyEvent *event)
 {
     if(state!=RUN)
     {
@@ -75,7 +75,7 @@ void SnakeBorder::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void SnakeBorder::paintEvent(QPaintEvent *)
+void snakeboard::paintEvent(QPaintEvent *)
 {
     QPainter p;
     p.begin(this);
@@ -100,7 +100,7 @@ void SnakeBorder::paintEvent(QPaintEvent *)
     }
     else{
         if(state==RUN){
-          int boardTop = rect.bottom() - BOARDHEIGHT*squareHeight();
+          int boardTop = rect.top();
           int boardLeft=rect.left();
           snake.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         }
@@ -121,7 +121,7 @@ void SnakeBorder::paintEvent(QPaintEvent *)
     p.end();
 }
 
-void SnakeBorder::timerEvent(QTimerEvent *event)
+void snakeboard::timerEvent(QTimerEvent *event)
 {
     if(event->timerId()==timer.timerId()){
         if(state==RUN&&command!=HELP)

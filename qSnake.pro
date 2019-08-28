@@ -27,7 +27,6 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         snake.cpp \
-        snakeborder.cpp \
         snakewindow.cpp \
         unit.cpp \
     homepage.cpp \
@@ -35,12 +34,14 @@ SOURCES += \
     foreststyle.cpp \
     prairiestyle.cpp \
     seastyle.cpp \
-    shareinfo.cpp
+    shareinfo.cpp \
+    environment.cpp \
+    snakeboard.cpp \
+    singlesnakeboard.cpp
 
 
 HEADERS += \
         snake.h \
-        snakeborder.h \
         snakewindow.h \
         unit.h \
     homepage.h \
@@ -48,7 +49,10 @@ HEADERS += \
     foreststyle.h \
     prairiestyle.h \
     seastyle.h \
-    shareinfo.h
+    shareinfo.h \
+    environment.h \
+    snakeboard.h \
+    singlesnakeboard.h
 
 FORMS +=
 
