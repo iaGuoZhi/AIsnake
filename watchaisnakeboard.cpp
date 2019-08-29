@@ -42,10 +42,13 @@ void watchAISnakeBoard::timerEvent(QTimerEvent *event)
                 emit levelChanged(level);
 
                 environ.createFood(eatResult);
-                 qDebug()<<aisnake->QVsnake.size();
+
             }
 
-             aisnake->QSbfs(environ.QVfood,environ.QVbrick);
+             if(!aisnake->QSbfs(environ.QVfood,environ.QVbrick))
+             {
+                 aisnake->followTail(environ.QVbrick);
+             }
              aisnake->QSmove();
 
             if(!aisnake->QSalive(environ.QVbrick))

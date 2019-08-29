@@ -16,7 +16,6 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
     QQueue<POINT> path;
     POINT point,adjacentPoint;
     DIRECTION direction;
-    int times=0;
 
     for(int i=0;i<BOARDHEIGHT;++i)
     {
@@ -134,4 +133,43 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
      }
 
      return backPoint2.arriveDirection;
+ }
+
+ bool aiSnake::followTail(QVector<Unit> virtualBrick)
+ {
+     QVector<Unit> virtualFood;
+     virtualFood.append(QVsnake[0]);
+     return QSbfs(virtualFood,virtualBrick);
+ }
+
+ bool aiSnake::QSai(QVector<Unit> virtualFood,QVector<Unit> virtualBrick)
+ {
+     int eatflag;
+     int sheadx=QVsnake[0].getUnitX();
+     int sheady=QVsnake[0].getUnitY();
+
+     /*virtual snake*/
+     aiSnake snake(sheadx,sheady,1,this->Sdirection);
+     snake.QVsnake.clear();
+     for(int i=0;i<QVsnake.size();++i)
+     {
+         snake.QVsnake.append(QVsnake[i]);
+     }
+
+     /*simulate bfs search*/
+     while((eatflag=snake.QSeat(virtualFood))==-1)
+     {
+         if(snake.QSbfs(virtualFood,virtualBrick)==false)
+            break;
+         snake.QSmove();
+     }
+
+     /*food can be eat,and snake can follow tail after eat food*/
+     if(eatflag!=-1&&snake.followTail(virtualBrick)==true)
+     {
+          return QSbfs(virtualFood,virtualBrick);
+     }
+
+     /*handle by followTail function directly,as it will handle the case that tail can't be followed*/
+     return followTail(virtualBrick);
  }
