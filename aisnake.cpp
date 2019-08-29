@@ -1,6 +1,7 @@
 #include "aisnake.h"
 #include<QQueue>
 #include<vector>
+#include<QDebug>
 using namespace std;
 
 aiSnake::aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection):Snake(sheadx,sheady,scolor,sdirection)
@@ -15,6 +16,7 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
     QQueue<POINT> path;
     POINT point,adjacentPoint;
     DIRECTION direction;
+    int times=0;
 
     for(int i=0;i<BOARDHEIGHT;++i)
     {
@@ -23,29 +25,25 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
             table.at(i).at(j).point_y=i;
             table.at(i).at(j).point_x=j;
             table.at(i).at(j).visit=false;
-            table.at(i).at(j).safefy=true;
+            table.at(i).at(j).safety=true;
             table.at(i).at(j).arriveDirection=NONE;
-
-            /*judge unsafe quickly*/
-            if(i==0||j==0||i==BOARDHEIGHT-1||j==BOARDWIDTH-1)
-            {
-                table.at(i).at(j).safefy=false;
-            }
-            else{
-                for(int k=0;k<virtualBrick.size();++k)
-                {
-                    if(i==virtualBrick[k].getUnitY()&&j==virtualBrick[k].getUnitX())
-                        table.at(i).at(j).safefy=false;
-                }
-                for(int k=0;k<QVsnake.size();++k)
-                {
-                    if(i==QVsnake[k].getUnitY()&&j==QVsnake[k].getUnitX())
-                    {
-                        table.at(i).at(j).safefy=false;
-                    }
-                }
-            }
+            table.at(i).at(j).isfood=false;
         }
+    }
+
+    for(int k=0;k<virtualBrick.size();++k)
+    {
+        table.at(virtualBrick[k].getUnitY()).at(virtualBrick[k].getUnitX()).safety=false;
+    }
+    for(int k=0;k<QVsnake.size();++k)
+    {
+        table.at(QVsnake[k].getUnitY()).at(QVsnake[k].getUnitX()).safety=false;
+    }
+
+    /*judge food is in the point or not*/
+    for(int k=0;k<virtualFood.size();++k)
+    {
+        table.at(virtualFood[k].getUnitY()).at(virtualFood[k].getUnitX()).isfood=true;
     }
 
     /*snake head enqueue*/
@@ -53,51 +51,50 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
     path.enqueue(table.at(QVsnake[0].getUnitY()).at(QVsnake[0].getUnitX()));
 
 
+
     while(!path.isEmpty())
     {
         point=path.dequeue();
 
-        /*judge the dequeued point is food or not*/
-        for(int i=0;i<virtualFood.size();++i)
-        {
-            if(virtualFood[i].getUnitY()==point.point_y&&virtualFood[i].getUnitX()==point.point_x)
-            {
+        if(point.isfood==true){
                 direction=findDirection(table,point);
+                openChangeLock();
+                if(direction==NONE)
+                    return false;
                 QSchangeDirection(direction);
                 return true;   //the ideal direction exists
-            }
         }
 
         /*the left point enqueue*/
         adjacentPoint=table.at(point.point_y).at(point.point_x-1);
-        if(adjacentPoint.safefy==true&&adjacentPoint.visit==false)
+        if(adjacentPoint.safety==true&&adjacentPoint.visit==false)
         {
-            adjacentPoint.visit=true;
-            adjacentPoint.arriveDirection=LEFT;
+            table.at(point.point_y).at(point.point_x-1).visit=true;
+            table.at(point.point_y).at(point.point_x-1).arriveDirection=LEFT;
             path.enqueue(adjacentPoint);
         }
         /*the right point enqueue*/
         adjacentPoint=table.at(point.point_y).at(point.point_x+1);
-        if(adjacentPoint.safefy==true&&adjacentPoint.visit==false)
+        if(adjacentPoint.safety==true&&adjacentPoint.visit==false)
         {
-            adjacentPoint.visit=true;
-            adjacentPoint.arriveDirection=RIGHT;
+            table.at(point.point_y).at(point.point_x+1).visit=true;
+           table.at(point.point_y).at(point.point_x+1).arriveDirection=RIGHT;
             path.enqueue(adjacentPoint);
         }
         /*the above point enqueue*/
         adjacentPoint=table.at(point.point_y-1).at(point.point_x);
-        if(adjacentPoint.safefy==true&&adjacentPoint.visit==false)
+        if(adjacentPoint.safety==true&&adjacentPoint.visit==false)
         {
-            adjacentPoint.visit=true;
-             adjacentPoint.arriveDirection=UP;
+            table.at(point.point_y-1).at(point.point_x).visit=true;
+            table.at(point.point_y-1).at(point.point_x).arriveDirection=UP;
             path.enqueue(adjacentPoint);
         }
         /*the down point enqueue*/
         adjacentPoint=table.at(point.point_y+1).at(point.point_x);
-        if(adjacentPoint.safefy==true&&adjacentPoint.visit==false)
+        if(adjacentPoint.safety==true&&adjacentPoint.visit==false)
         {
-            adjacentPoint.visit=true;
-             adjacentPoint.arriveDirection=DOWN;
+            table.at(point.point_y+1).at(point.point_x).visit=true;
+            table.at(point.point_y+1).at(point.point_x).arriveDirection=DOWN;
             path.enqueue(adjacentPoint);
         }
 
@@ -108,9 +105,11 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
 
  DIRECTION aiSnake::findDirection(vector<vector<POINT>> table,POINT point)
  {
+
      POINT backPoint,backPoint2;
-     backPoint=point;
+     backPoint=table.at(point.point_y).at(point.point_x);
      while(!(backPoint.point_x==QVsnake[0].getUnitX()&&backPoint.point_y==QVsnake[0].getUnitY())){
+
          if(backPoint.arriveDirection==NONE)
          {
             return NONE;
@@ -124,14 +123,15 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
               backPoint=table.at(backPoint.point_y).at(backPoint.point_x-1);
              break;
          case UP:
-             backPoint=table.at(backPoint.point_y).at(backPoint.point_x+1);
+             backPoint=table.at(backPoint.point_y+1).at(backPoint.point_x);
              break;
          case DOWN:
-              backPoint=table.at(backPoint.point_y).at(backPoint.point_x-1);
+              backPoint=table.at(backPoint.point_y-1).at(backPoint.point_x);
              break;
          default:
              break;
          }
      }
+
      return backPoint2.arriveDirection;
  }

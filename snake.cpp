@@ -57,7 +57,7 @@ void Snake::QSmove(){
 void Snake::QSgrow()
 {
     QVsnake.append(Unit(snakeheadx,snakeheady,snakecolor));
-    QSmove();                   //wo don't need to specity the position of snake's rear because it will move
+
 }
 
 /*judge eating using the head of snake*/

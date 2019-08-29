@@ -15,13 +15,14 @@ struct POINT{
     /*the direction when bfs arrive the point*/
     DIRECTION arriveDirection;
     /*snake can move to the point or not*/
-    bool safefy;
-
+    bool safety;
+    bool isfood;
 
 
 };
 class aiSnake:public Snake
 {
+
    public:
     aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection);
     bool QSbfs(QVector<Unit> virturlFood,QVector<Unit> virturlBrick);

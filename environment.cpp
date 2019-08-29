@@ -54,7 +54,6 @@ void environment::createFood(int index)
         }
         if(overlapflag==false)
         {
-            qDebug()<<randomx<<randomy;
             QVfood[index].setUnitX(randomx);
             QVfood[index].setUnitY(randomy);
             if(qrand()%7==0)

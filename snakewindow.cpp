@@ -36,6 +36,20 @@ SnakeWindow::SnakeWindow()
 void SnakeWindow::reconnectAsOrder()
 {
     switch (this->mode) {
+    case GAMEMODE::WATCHAIPLAY:
+        watchaiboard=new watchAISnakeBoard();
+
+        connect(startButton, &QPushButton::clicked, watchaiboard, &watchAISnakeBoard::start);
+        connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
+        connect(pauseButton, &QPushButton::clicked, watchaiboard, &watchAISnakeBoard::pause);
+        connect(helpButton,&QPushButton::clicked,watchaiboard,&watchAISnakeBoard::help);
+
+        connect(watchaiboard, &watchAISnakeBoard::scoreChanged,
+                scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(watchaiboard, &watchAISnakeBoard::levelChanged,
+                levelLcd1, QOverload<int>::of(&QLCDNumber::display));
+        break;
+
     case GAMEMODE::SINGLEPLAYER:
         singleboard=new singlesnakeboard();
 
@@ -126,20 +140,32 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
     /*draw game window according to game mode*/
     switch(this->mode)
     {
-    case GAMEMODE::SINGLEPLAYER:  case GAMEMODE::WATCHAIPLAY:
+    case GAMEMODE::SINGLEPLAYER:
 
         layout->addWidget(singleboard, 0, 0,13,18);
-        if(this->mode==SINGLEPLAYER)
+
         layout->addWidget(createLabel(tr("单人游戏")),0,18,1,2);
-        else{
-            layout->addWidget(createLabel(tr("AI贪吃蛇")),0,18,1,2);
-        }
         layout->addWidget(createLabel(tr("等级")), 1, 18,1,2);
         layout->addWidget(levelLcd1, 2, 18,1,2);
         layout->addWidget(createLabel(tr("分数")), 3, 18,1,2);
         layout->addWidget(scoreLcd1, 4, 18,1,2);
         layout->addWidget(createLabel(tr("剩余隐身数")),5,18,1,2);
         layout->addWidget(hideTimesLcd1,6,18,1,2);
+        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,18,1,2);
+
+        layout->addWidget(startButton, 8, 18,2,2);
+        layout->addWidget(pauseButton, 10, 18,1,2);
+        layout->addWidget(helpButton,11,18,1,2);
+        layout->addWidget(quitButton, 12, 18,1,2);
+        break;
+     case GAMEMODE::WATCHAIPLAY:
+        layout->addWidget(watchaiboard, 0, 0,13,18);
+
+        layout->addWidget(createLabel(tr("AI贪吃蛇")),0,18,1,2);
+        layout->addWidget(createLabel(tr("等级")), 1, 18,1,2);
+        layout->addWidget(levelLcd1, 2, 18,1,2);
+        layout->addWidget(createLabel(tr("分数")), 3, 18,1,2);
+        layout->addWidget(scoreLcd1, 4, 18,1,2);
         layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,18,1,2);
 
         layout->addWidget(startButton, 8, 18,2,2);

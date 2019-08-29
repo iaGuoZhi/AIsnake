@@ -92,7 +92,6 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
                 if(environ.isHideBuff(eatResult))
                 {
                     this->remainhidetimes+=1;
-                    qDebug()<<this->remainhidetimes;
                     emit hidetimesChanged(this->remainhidetimes);
 
                 }
