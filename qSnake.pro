@@ -40,7 +40,8 @@ SOURCES += \
     singlesnakeboard.cpp \
     doublesnakeboard.cpp \
     aisnake.cpp \
-    watchaisnakeboard.cpp
+    watchaisnakeboard.cpp \
+    againstaiboard.cpp
 
 
 HEADERS += \
@@ -58,7 +59,8 @@ HEADERS += \
     singlesnakeboard.h \
     doublesnakeboard.h \
     aisnake.h \
-    watchaisnakeboard.h
+    watchaisnakeboard.h \
+    againstaiboard.h
 
 FORMS +=
 

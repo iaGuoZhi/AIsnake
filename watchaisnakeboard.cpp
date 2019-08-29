@@ -53,7 +53,6 @@ void watchAISnakeBoard::timerEvent(QTimerEvent *event)
                 state=END;
             }
             update();
-            qDebug()<<"arrive end";
         }
         if(command==HELP)
         {

@@ -8,6 +8,7 @@
 #include "singlesnakeboard.h"
 #include "doublesnakeboard.h"
 #include "watchaisnakeboard.h"
+#include "againstaiboard.h"
 #include "shareinfo.h"
 
 QT_BEGIN_NAMESPACE
@@ -39,6 +40,7 @@ private:
     singlesnakeboard *singleboard;
     doubleSnakeBoard *doubleboard;
     watchAISnakeBoard *watchaiboard;
+    againstAIBoard *againstaiboard;
 
 
     QLCDNumber *scoreLcd1;

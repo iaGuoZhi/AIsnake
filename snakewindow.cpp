@@ -86,8 +86,23 @@ void SnakeWindow::reconnectAsOrder()
                 hideTimesLcd1,QOverload<int>::of(&QLCDNumber::display));
         connect(doubleboard,&doubleSnakeBoard::hidetimes2Changed,
                 hideTimesLcd2,QOverload<int>::of(&QLCDNumber::display));
+        break;
 
+    case GAMEMODE::PLAYWITHAI:
+        againstaiboard=new againstAIBoard();
+        connect(startButton, &QPushButton::clicked, againstaiboard, &againstAIBoard::start);
+        connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
+        connect(pauseButton, &QPushButton::clicked, againstaiboard, &againstAIBoard::pause);
+        connect(helpButton,&QPushButton::clicked,againstaiboard,&againstAIBoard::help);
 
+        connect(againstaiboard, &againstAIBoard::score1Changed,
+                scoreLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(againstaiboard, &againstAIBoard::level1Changed,
+                levelLcd1, QOverload<int>::of(&QLCDNumber::display));
+        connect(againstaiboard, &againstAIBoard::score2Changed,
+                scoreLcd2, QOverload<int>::of(&QLCDNumber::display));
+        connect(againstaiboard, &againstAIBoard::level2Changed,
+                levelLcd2, QOverload<int>::of(&QLCDNumber::display));
     default:
         break;
     }
@@ -174,13 +189,10 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
         layout->addWidget(quitButton, 12, 18,1,2);
         break;
 
-    case GAMEMODE::DOUBLEPLAYER: case GAMEMODE::PLAYWITHAI:
+    case GAMEMODE::DOUBLEPLAYER:
         /*左边信息区*/
-        if(this->mode==DOUBLEPLAYER)
+
         layout->addWidget(createLabel(tr("玩家二")),0,0,1,2);
-        else{
-            layout->addWidget(createLabel(tr("AI玩家")),0,0,1,2);
-        }
         layout->addWidget(createLabel(tr("等级")),1,0,1,2);
         layout->addWidget(levelLcd2,2,0,1,2);
         layout->addWidget(createLabel(tr("分数")),3,0,1,2);
@@ -211,6 +223,32 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
         layout->addWidget(quitButton,12,26,2,2);
 
         break;
+    case GAMEMODE::PLAYWITHAI:
+        /*左边信息区*/
+
+        layout->addWidget(createLabel(tr("AI")),0,0,1,2);
+        layout->addWidget(createLabel(tr("等级")),1,0,1,2);
+        layout->addWidget(levelLcd2,2,0,1,2);
+        layout->addWidget(createLabel(tr("分数")),3,0,1,2);
+        layout->addWidget(scoreLcd2,4,0,1,2);
+        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,0,1,2);
+        layout->addWidget(helpButton,10,0,2,2);
+        layout->addWidget(pauseButton,12,0,2,2);
+
+        /*游戏区*/
+        layout->addWidget(againstaiboard,0,2,14,24);
+
+        /*右边信息区*/
+        layout->addWidget(createLabel(tr("玩家一")),0,26,1,2);
+        layout->addWidget(createLabel(tr("等级")),1,26,1,2);
+        layout->addWidget(levelLcd1,2,26,1,2);
+        layout->addWidget(createLabel(tr("分数")),3,26,1,2);
+        layout->addWidget(scoreLcd1,4,26,1,2);
+        layout->addWidget(createLabel(tr("难度: ")+this->difficultyString),7,26,1,2);
+        layout->addWidget(createLabel(tr("方向键移动")),8,26,1,2);
+        layout->addWidget(startButton,10,26,2,2);
+        layout->addWidget(quitButton,12,26,2,2);
+
     }
     layout->setMargin(0);
     setLayout(layout);
