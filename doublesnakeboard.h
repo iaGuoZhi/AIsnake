@@ -9,6 +9,7 @@
 
 
 #define MAX(x, y)   ((x)>(y)?(x):(y))
+
 class doubleSnakeBoard:public snakeboard
 {
     Q_OBJECT
@@ -38,7 +39,7 @@ private:
 
     int timeoutTime()
     {
-        return 400/(1+MAX(level1,level2));
+        return 2000/(5+MAX(level1,level2));
     }
 
 protected:

@@ -24,7 +24,7 @@
 #include"unit.h"
 #include"shareinfo.h"
 
-const int FOODNUMBER=1;
+const int FOODNUMBER=4;
 
 class environment: public QFrame  //继承qframe to enable the ability to draw
 {

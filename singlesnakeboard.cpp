@@ -16,6 +16,10 @@ singlesnakeboard::singlesnakeboard(QWidget *parent)
 
 void singlesnakeboard::start()
 {
+    score1=0;
+    level1=0;
+    remainhidetimes=0;
+    hideleft=0;
     state=RUN;
     environ.initEnvironment();
     snake=new Snake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT);
@@ -72,7 +76,10 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
                 snake->hide();
                 this->hideleft-=1;
             }
+
             snake->QSmove();
+            snake->openChangeLock();
+
             eatResult=snake->QSeat(environ.QVfood);
             if(eatResult!=-1)
             {
@@ -91,6 +98,8 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
                 }
                 environ.createFood(eatResult);
             }
+
+
             if(!snake->QSalive(environ.QVbrick))
             {
                 state=END;

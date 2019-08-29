@@ -5,7 +5,7 @@
 #include<QVector>
 #include <QFrame>
 #include<QTime>
-#include <QtGlobal>    //get random data
+#include <QtGlobal>
 #include<QPainter>
 #include"unit.h"
 #include "shareinfo.h"
@@ -17,7 +17,6 @@ class Snake
 {
     /*作为友元，可直接访问environment中的私有成员*/
     friend class environment;
-
 
 
     //Q_OBJECT
@@ -43,16 +42,20 @@ public:
     void QSchangeDirection(DIRECTION direction);
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
     void drawSquare(QPainter &painter,int x,int y,int color,int squarewidth,int squareheight);
+    void openChangeLock(){changeLock=true;}
 
     /* return type: -1 not captured,0-n the index of the snake,0 means head*/
     int capture(QVector<Unit> initialSnake);
-private:
-    QVector<Unit> QVsnake;
+
+     QVector<Unit> QVsnake;
+protected:
+
     DIRECTION Sdirection;
     bool ishiding=false;
     int snakeheadx;
     int snakeheady;
     int snakecolor;
+    bool changeLock;
 
 
 

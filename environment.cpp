@@ -15,12 +15,10 @@ void environment::initEnvironment()
 }
 void environment::createFood()
 {
+    QVfood.clear();
     for(int i=0;i<FOODNUMBER;++i)
     {
         QVfood.append(Unit(0,0,2));
-    }
-    for(int i=0;i<FOODNUMBER;++i)
-    {
         createFood(i);
     }
 }
@@ -32,15 +30,15 @@ void environment::createFood(int index)
     while(true)
     {
         overlapflag=false;
-        qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+        qsrand(QTime(0,0,0).msecsTo(QTime::currentTime()));
         randomx=qrand()%(BOARDWIDTH-1)+1;
         randomy=qrand()%(BOARDHEIGHT-1)+1;
         for(int j=0;j<QVfood.size();++j)
         {
-            if(j==index)
-                continue;
-            if(QVfood[j].getUnitY()==randomx&&QVfood[j].getUnitY()==randomy)
+            if(QVfood[j].getUnitX()==randomx&&QVfood[j].getUnitY()==randomy)
+            {
                 overlapflag=true;                   //avoid new created food is overlaped with other food
+            }
         }
         for(int j=0;j<QVfoodbrick.size();++j)
         {
@@ -56,9 +54,10 @@ void environment::createFood(int index)
         }
         if(overlapflag==false)
         {
+            qDebug()<<randomx<<randomy;
             QVfood[index].setUnitX(randomx);
             QVfood[index].setUnitY(randomy);
-            if(qrand()%2==0)
+            if(qrand()%7==0)
             {
                 QVfood[index].setUnitColor(4);
                 QVfood[index].setUnitDescribe("hideBuff");
@@ -71,6 +70,8 @@ void environment::createFood(int index)
 /* create brick as initial terrain*/
 void environment::createBrick()
 {
+    QVbrick.clear();
+    QVfoodbrick.clear();
     int random;
     createBorder();
     for(int i=1;i<BOARDWIDTH-BRICKWIDTH;++i)
@@ -79,7 +80,7 @@ void environment::createBrick()
         {
             if(i>BOARDWIDTH/3&&2*i<BOARDWIDTH*4/3&&j>BOARDHEIGHT/3&&2*j<BOARDHEIGHT*4/3)
                 continue;
-            qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+            qsrand(QTime(0,0,0).msecsTo(QTime::currentTime()));
             random=rand()%200;
             if(random==0)
             {

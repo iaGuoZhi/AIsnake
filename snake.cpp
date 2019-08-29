@@ -24,6 +24,7 @@ void Snake::initSnake()
             QVsnake.append(Unit(snakeheadx+i,snakeheady,snakecolor));
     }
     }
+    changeLock=true;
 }
 
 
@@ -48,6 +49,7 @@ void Snake::QSmove(){
         case DOWN:
              QVsnake[0].setUnitY(QVsnake[0].getUnitY()+1);
          break;
+        default: break;
     }
 }
 
@@ -104,11 +106,14 @@ bool Snake::QSalive(QVector<Unit> virtualBrick)
 /*change direction*/
 void Snake::QSchangeDirection(DIRECTION direction)
 {
-    if((Sdirection+direction)!=3)   //sum of new and previous directioin equals to 3 means the directions are opposite;
+    if(changeLock==true)
     {
-        Sdirection=direction;
+        if((Sdirection+direction)!=3)   //sum of new and previous directioin equals to 3 means the directions are opposite;
+        {
+            Sdirection=direction;
+        }
+        changeLock=false;
     }
-
 }
 
 /*draw snake and food*/
@@ -150,14 +155,21 @@ void Snake::drawSquare(QPainter &painter, int x, int y, int shape,int squarewidt
 
 int Snake::capture(QVector<Unit> initialSnake)
 {
+    int captureresult=-1;
     for(int i=0;i<initialSnake.size();++i)
     {
         if(initialSnake[i].getUnitX()==QVsnake[0].getUnitX()&&initialSnake[i].getUnitY()==QVsnake[0].getUnitY())
         {
-            return i;
+            if(i==0)
+            {
+                captureresult=0;
+            }
+            else{
+                captureresult=initialSnake.size()+1-i;
+            }
         }
     }
-    return -1;
+    return captureresult;
 }
 
 bool Snake::QSquickGrow(int size)

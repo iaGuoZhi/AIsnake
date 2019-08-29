@@ -6,7 +6,11 @@
 doubleSnakeBoard::doubleSnakeBoard(QWidget *parent)
     : snakeboard(parent)
 {
-    init();
+    timer.start(timeoutTime(),this);
+}
+
+void doubleSnakeBoard::start()
+{
     score1=0;
     score2=0;
     level1=0;
@@ -15,11 +19,6 @@ doubleSnakeBoard::doubleSnakeBoard(QWidget *parent)
     remainhidetimes2=0;
     hideleft1=0;
     hideleft2=0;
-    timer.start(timeoutTime(),this);
-}
-
-void doubleSnakeBoard::start()
-{
     environ.initEnvironment();
     snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT);
     snake2=new Snake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT);
@@ -107,6 +106,8 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
                 this->hideleft2-=1;
             }
 
+            snake1->openChangeLock();
+            snake2->openChangeLock();
             /*move snake*/
             snake1->QSmove();
             snake2->QSmove();
@@ -119,7 +120,7 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
             if(eatresult1!=-1)
             {
                 score1+=3;
-                level1=score1/10;
+                level1=score1/7;
                 snake1->QSgrow();
                 emit score1Changed(score1);
                 emit level1Changed(level1);
@@ -136,7 +137,7 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
             if(eatresult2!=-1)
             {
                 score2+=3;
-                level2=score2/10;
+                level2=score2/7;
                 snake2->QSgrow();
                 emit score2Changed(score2);
                 emit level2Changed(level2);
@@ -150,20 +151,40 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
             }
 
             /*snake caputure snake*/
-            //capturesize1=snake1->capture(snake2->QVsnake);
-            //capturesize2=snake2->capture(snake1->QVsnake);
+            capturesize1=snake1->capture(snake2->QVsnake);
+            capturesize2=snake2->capture(snake1->QVsnake);
 
             if(capturesize1!=-1)
             {
                 if(capturesize1==0)
                     state=END;
+
+                score1+=3*capturesize1;
+                level1=score1/7;
+                emit score1Changed(score1);
+                emit level1Changed(level1);
+                score2-=3*capturesize1;
+                level2=score2/7;
+                emit score2Changed(score2);
+                emit level2Changed(level2);
+
                 snake1->QSquickGrow(capturesize1);
                 snake2->QSquickShort(capturesize1);
-            }
+            }else
             if(capturesize2!=-1)
             {
                 if(capturesize2==0)
                     state=END;
+
+                score2+=3*capturesize2;
+                level2=score2/7;
+                emit score2Changed(score2);
+                emit level2Changed(level2);
+                score1-=3*capturesize2;
+                level1=score1/7;
+                emit score1Changed(score1);
+                emit level1Changed(level1);
+
                 snake1->QSquickShort(capturesize2);
                 snake2->QSquickGrow(capturesize2);
             }

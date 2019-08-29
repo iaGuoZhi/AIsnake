@@ -39,7 +39,7 @@ private:
 
     int timeoutTime()
     {
-        return 400/(1+level1);
+        return 2000/(5+level1);
     }
 
 protected:

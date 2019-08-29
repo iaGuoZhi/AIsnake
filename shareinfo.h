@@ -29,14 +29,14 @@ enum DIFFICULTY{
 };
 
 
-enum{
-    BOARDWIDTH=76,
-    BOARDHEIGHT=64,
-    BRICKWIDTH=7,
-    BRICKHEIGHT=5
-}; //set the amount of unit a board can hold
+
+const int BOARDWIDTH=76;
+const int BOARDHEIGHT=64;
+const int BRICKWIDTH=7;
+const int BRICKHEIGHT=5;
+ //set the amount of unit a board can hold
 enum DIRECTION{
-    RIGHT,DOWN,UP,LEFT
+    RIGHT,DOWN,UP,LEFT,NONE
 };
 
 const int SNAKEHEADX=38;
