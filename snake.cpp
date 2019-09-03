@@ -1,6 +1,7 @@
 #include "snake.h"
 #include <QDebug>
 #include "unit.h"
+#include <QString>
 Snake::Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme)
 {
     this->snakeheadx=sheadx;
@@ -125,7 +126,7 @@ void Snake::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardL
      {
         for(int i=0;i<QVsnake.size();++i)
         {
-            drawSquare(painter,boardLeft+QVsnake[i].getUnitX()*squarewidth,boardTop+QVsnake[i].getUnitY()*squareheight,QVsnake[i].getUnitColor(),squarewidth,squareheight);
+            drawUnit(painter,boardLeft+QVsnake[i].getUnitX()*squarewidth,boardTop+QVsnake[i].getUnitY()*squareheight,QVsnake[i].getUnitKind(),squarewidth,squareheight);
         }
      }
     ishiding=false;
@@ -133,26 +134,37 @@ void Snake::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardL
 
 /*draw brick and food*/
 
-void Snake::drawSquare(QPainter &painter, int x, int y, int shape,int squarewidth,int squareheight)
+void Snake::drawUnit(QPainter &painter, int x, int y, UNITKIND unitkind, int squarewidth, int squareheight)
 {
-    static const QRgb colorTable[8] = {
-        0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
-        0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
-    };
-
-    QColor color = colorTable[int(shape)];
-    painter.fillRect(x + 1, y + 1, squarewidth - 2, squareheight - 2,
-                     color);
-
-    painter.setPen(color.light());
-    painter.drawLine(x, y + squareheight - 1, x, y);
-    painter.drawLine(x, y, x + squarewidth - 1, y);
-
-    painter.setPen(color.dark());
-    painter.drawLine(x + 1, y + squareheight - 1,
-                     x + squarewidth - 1, y + squareheight - 1);
-    painter.drawLine(x + squarewidth - 1, y + squareheight - 1,
-                     x + squarewidth - 1, y + 1);
+    QImage *image;
+    QString image_choice="";
+    if(unitkind!=UNITKIND::SNAKEBODY&&unitkind!=UNITKIND::SNAKEHEAD)
+        return;
+    switch (this->theme) {
+    case THEME::COSTOM_FOREST:
+        image_choice="9";
+        break;
+    case THEME::COSTOM_PIRARIE:
+        image_choice="10";
+        break;
+    case THEME::COSTOM_SEA:
+        image_choice="8";
+        break;
+    case THEME::SYSTEM_FUSION:
+        image_choice="3";
+        break;
+    case THEME::SYSTEM_WINDOWS:
+        image_choice="4";
+        break;
+    default:
+        break;
+    }
+    if(unitkind==UNITKIND::SNAKEHEAD)
+        image=new QImage(":/images/snakeUnit"+image_choice+"Head.png");
+    else
+    if(unitkind==UNITKIND::SNAKEBODY)
+        image=new QImage(":/images/snakeUnit"+image_choice+".png");
+    painter.drawImage(x,y,*image,0,0,-1,-1);
 }
 
 int Snake::capture(QVector<Unit> initialSnake)

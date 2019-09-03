@@ -41,7 +41,7 @@ public:
     bool QSquickShort(int size);
     void QSchangeDirection(DIRECTION direction);
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
-    void drawSquare(QPainter &painter,int x,int y,int color,int squarewidth,int squareheight);
+    void drawUnit(QPainter &painter,int x,int y,UNITKIND unitkind,int squarewidth,int squareheight);
     void openChangeLock(){changeLock=true;}
 
     /* return type: -1 not captured,0-n the index of the snake,0 means head*/
