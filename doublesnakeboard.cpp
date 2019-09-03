@@ -23,8 +23,8 @@ void doubleSnakeBoard::start()
     hideleft2=0;
     environ=new environment(theme,difficulty);
     environ->initEnvironment();
-    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT,theme);
-    snake2=new Snake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT,theme);
+    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT,theme,"玩家一");
+    snake2=new Snake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT,theme,"玩家二");
     snake1->initSnake();
     snake2->initSnake();
     emit score1Changed(score1);

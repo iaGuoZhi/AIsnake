@@ -30,7 +30,7 @@ enum DIFFICULTY{
 
 
 
-const int BOARDWIDTH=76;
+const int BOARDWIDTH=80;
 const int BOARDHEIGHT=64;
 const int BRICKWIDTH=7;
 const int BRICKHEIGHT=5;

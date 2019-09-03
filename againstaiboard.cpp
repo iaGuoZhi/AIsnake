@@ -21,8 +21,8 @@ void againstAIBoard::start()
 
     environ=new environment(theme,difficulty);
     environ->initEnvironment();
-    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT,theme);
-    aisnake2=new aiSnake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT,theme);
+    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT,theme,"玩家１");
+    aisnake2=new aiSnake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT,theme,"AI");
     snake1->initSnake();
     aisnake2->initSnake();
     emit score1Changed(score1);
@@ -75,7 +75,7 @@ void againstAIBoard::timerEvent(QTimerEvent *event)
 
             if(eatresult1!=-1)
             {
-                score1+=3;
+                score1+=4;
                 level1=score1/7;
                 snake1->QSgrow();
                 emit score1Changed(score1);
@@ -102,7 +102,7 @@ void againstAIBoard::timerEvent(QTimerEvent *event)
             aisnake2->QSmove();
 
             /*judge snake alive*/
-            if(!snake1->QSalive(environ->QVbrick)||!aisnake2->QSalive(environ->QVbrick))
+            if(!snake1->QSalive(environ->QVbrick)||!aisnake2->QSalive(environ->QVbrick)||score1>=100)
             {
                 state=END;
             }

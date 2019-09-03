@@ -2,13 +2,14 @@
 #include <QDebug>
 #include "unit.h"
 #include <QString>
-Snake::Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme)
+Snake::Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme,  QString name)
 {
     this->snakeheadx=sheadx;
     this->snakeheady=sheady;
     this->snakecolor=scolor;
     this->Sdirection=sdirection;
     this->theme=theme;
+    this->name=name;
 }
 
 
@@ -128,6 +129,9 @@ void Snake::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardL
         {
             drawUnit(painter,boardLeft+QVsnake[i].getUnitX()*squarewidth,boardTop+QVsnake[i].getUnitY()*squareheight,QVsnake[i].getUnitKind(),squarewidth,squareheight);
         }
+        QFont font("黑体",9,QFont::Bold,true);
+        painter.setFont(font);
+        painter.drawText(QVsnake[0].getUnitX()*squarewidth,QVsnake[0].getUnitY()*squareheight,this->name);
      }
     ishiding=false;
 }
@@ -136,7 +140,7 @@ void Snake::Qshow(QPainter &painter,int squarewidth, int squareheight,int boardL
 
 void Snake::drawUnit(QPainter &painter, int x, int y, UNITKIND unitkind, int squarewidth, int squareheight)
 {
-    QImage *image;
+    QPixmap *image;
     QString image_choice="";
     if(unitkind!=UNITKIND::SNAKEBODY&&unitkind!=UNITKIND::SNAKEHEAD)
         return;
@@ -160,11 +164,11 @@ void Snake::drawUnit(QPainter &painter, int x, int y, UNITKIND unitkind, int squ
         break;
     }
     if(unitkind==UNITKIND::SNAKEHEAD)
-        image=new QImage(":/images/snakeUnit"+image_choice+"Head.png");
+        image=new QPixmap(":/images/snakeUnit"+image_choice+"Head.png");
     else
     if(unitkind==UNITKIND::SNAKEBODY)
-        image=new QImage(":/images/snakeUnit"+image_choice+".png");
-    painter.drawImage(x,y,*image,0,0,-1,-1);
+        image=new QPixmap(":/images/snakeUnit"+image_choice+".png");
+    painter.drawPixmap(x,y,squarewidth,squareheight,*image);
 }
 
 int Snake::capture(QVector<Unit> initialSnake)

@@ -33,8 +33,8 @@ void environment::createFood(int index)
     {
         overlapflag=false;
         qsrand(QTime(0,0,0).msecsTo(QTime::currentTime()));
-        randomx=qrand()%(BOARDWIDTH-1)+1;
-        randomy=qrand()%(BOARDHEIGHT-1)+1;
+        randomx=qrand()%(BOARDWIDTH-4)+2;
+        randomy=qrand()%(BOARDHEIGHT-4)+2;
         for(int j=0;j<QVfood.size();++j)
         {
             if(QVfood[j].getUnitX()==randomx&&QVfood[j].getUnitY()==randomy)

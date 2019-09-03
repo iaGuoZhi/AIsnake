@@ -4,7 +4,7 @@
 #include<QDebug>
 using namespace std;
 
-aiSnake::aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme):Snake(sheadx,sheady,scolor,sdirection,theme)
+aiSnake::aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme,QString name):Snake(sheadx,sheady,scolor,sdirection,theme,name)
 {
 
 }

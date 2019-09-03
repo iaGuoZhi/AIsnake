@@ -24,7 +24,7 @@ class aiSnake:public Snake
 {
 
    public:
-    aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme);
+    aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme,QString name="");
     bool QSbfs(QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
     DIRECTION findDirection(vector<vector<POINT>> table,POINT point);
     bool followTail(QVector<Unit> virtualBrick);

@@ -24,7 +24,7 @@ class Snake
 
 
 public:
-    Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme);
+    Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection=DIRECTION::RIGHT,THEME theme=THEME::COSTOM_FOREST,QString name="");
     void initSnake();
     void QSmove();
 
@@ -42,6 +42,7 @@ public:
     void QSchangeDirection(DIRECTION direction);
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
     void drawUnit(QPainter &painter,int x,int y,UNITKIND unitkind,int squarewidth,int squareheight);
+
     void openChangeLock(){changeLock=true;}
 
     /* return type: -1 not captured,0-n the index of the snake,0 means head*/
@@ -57,6 +58,7 @@ protected:
     int snakecolor;
     bool changeLock;
     THEME theme=THEME::COSTOM_FOREST;
+    QString name="";
 
 
 
