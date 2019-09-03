@@ -30,5 +30,7 @@
         <file>images/snakeUnit10.png</file>
         <file>images/snakeUnit10Head.png</file>
         <file>images/stone.png</file>
+        <file>images/seabackground.jpeg</file>
+        <file>images/prairiebackground.png</file>
     </qresource>
 </RCC>

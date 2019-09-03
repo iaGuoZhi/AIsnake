@@ -50,6 +50,7 @@ protected:
     void timerEvent(QTimerEvent *event) override;
     void paintEvent(QPaintEvent *) override;
 
+
 };
 
 #endif // SINGLESNAKEBOARD_H

@@ -60,7 +60,7 @@ void Snake::QSmove(){
 /*grow*/
 void Snake::QSgrow()
 {
-    QVsnake.append(Unit(snakeheadx,snakeheady,snakecolor,UNITKIND::SNAKEBODY));
+    QVsnake.append(Unit(QVsnake[QVsnake.size()-1].getUnitX(),QVsnake[QVsnake.size()-1].getUnitY(),snakecolor,UNITKIND::SNAKEBODY));
 
 }
 

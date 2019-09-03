@@ -28,6 +28,9 @@ void singlesnakeboard::start()
     snake=new Snake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT,this->theme);
     snake->initSnake();
 
+    //play background music
+    playBackgroundMusic();
+
     emit score1Changed(score1);
     emit level1Changed(level1);
     emit hidetimesChanged(remainhidetimes);

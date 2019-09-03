@@ -14,7 +14,7 @@ void seastyle::polish(QPalette &palette)
     QColor cyan(0, 255, 255);
     QColor slightlyOpaqueBlack(0, 0, 0, 63);
 
-    QPixmap backgroundImage(":/images/seabackground.jpg");
+    QPixmap backgroundImage(":/images/seabackground.jpeg");
     QPixmap buttonImage(":/images/seabutton.jpeg");
     QPixmap midImage = buttonImage;
 

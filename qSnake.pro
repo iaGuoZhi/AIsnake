@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 requires(qtConfig(combobox))
@@ -70,3 +71,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES     = qSnake.qrc \
+
+DISTFILES += \
+    music/background.mp3 \
+    music/eat.ogg \
+    music/gameover.ogg \
+    music/jiayou.ogg

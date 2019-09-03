@@ -47,6 +47,9 @@ protected:
     int squareWidth() { return contentsRect().width() / BOARDWIDTH; }
     int squareHeight() { return contentsRect().height() / BOARDHEIGHT; }
     void paintMessage(QPaintEvent *);
+    void playBackgroundMusic();
+    void playEatingMusic();
+    void playFaultMusic();
 
 
 };

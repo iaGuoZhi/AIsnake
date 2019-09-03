@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include<QDebug>
 #include<QString>
+#include<QMediaPlayer>
 
 snakeboard::snakeboard(QWidget *parent)
     : QFrame(parent)
@@ -82,6 +83,23 @@ void snakeboard::paintMessage(QPaintEvent *)
     p.end();
 }
 
+void snakeboard::playBackgroundMusic()
+{
+    QMediaPlayer *player=new QMediaPlayer();
+    player->setMedia(QUrl("qrc://music/background.mp3"));
+    player->setVolume(40);
+    player->play();
+}
+
+void snakeboard::playEatingMusic()
+{
+
+}
+
+void snakeboard::playFaultMusic()
+{
+
+}
 
 
 
