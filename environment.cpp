@@ -20,7 +20,7 @@ void environment::createFood()
     QVfood.clear();
     for(int i=0;i<FOODNUMBER;++i)
     {
-        QVfood.append(Unit(0,0,2));
+        QVfood.append(Unit(0,0,2,UNITKIND::FOODNORMAL));
         createFood(i);
     }
 }
@@ -62,6 +62,7 @@ void environment::createFood(int index)
             {
                 QVfood[index].setUnitColor(4);
                 QVfood[index].setUnitDescribe("hideBuff");
+                QVfood[index].setUnitKind(UNITKIND::FOODSPECIAL);
             }
             return;
         }                                     //circulate till the right position is created
@@ -85,13 +86,13 @@ void environment::createBrick()
             random=rand()%200;
             if(random==0)
             {
-                QVfoodbrick.append(Unit(i,j,3));
+                QVfoodbrick.append(Unit(i,j,3,UNITKIND::BRICK));
                 for(int k=0;k<BRICKWIDTH;++k)
                 {
                     for(int t=0;t<BRICKHEIGHT;++t)
                     {
                         if(rand()%3!=0)
-                         QVbrick.append(Unit(i+k,j+t,3));
+                         QVbrick.append(Unit(i+k,j+t,3,UNITKIND::BRICK));
                     }
                 }
             }
@@ -103,13 +104,13 @@ void environment::createBorder()
 {
     for(int i=0;i<BOARDWIDTH;++i)
     {
-        QVbrick.append(Unit(i,0,3));
-        QVbrick.append(Unit(i,BOARDHEIGHT-1,3));
+        QVbrick.append(Unit(i,0,3,UNITKIND::BRICK));
+        QVbrick.append(Unit(i,BOARDHEIGHT-1,3,UNITKIND::BRICK));
     }
     for(int i=0;i<BOARDHEIGHT;++i)
     {
-        QVbrick.append(Unit(0,i,3));
-        QVbrick.append(Unit(BOARDWIDTH-1,i,3));
+        QVbrick.append(Unit(0,i,3,UNITKIND::BRICK));
+        QVbrick.append(Unit(BOARDWIDTH-1,i,3,UNITKIND::BRICK));
     }
 }
 
@@ -118,8 +119,14 @@ void environment::createBorder()
 void environment::drawSquare(QPainter &painter, int x, int y, int shape,int squarewidth,int squareheight)
 {
     static const QRgb colorTable[8] = {
-        0x000000, 0xCC6666, 0x66CC66, 0x6666CC,
-        0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00
+        0x000000, //black
+        0xCC6666, //red
+        0x66CC66, //green
+        0x6666CC, //blue
+        0xCCCC66, //red
+        0xCC66CC, //purple
+        0x66CCCC, //light blue
+        0xDAAA00  //yellow
     };
 
     QColor color = colorTable[int(shape)];
@@ -136,8 +143,48 @@ void environment::drawSquare(QPainter &painter, int x, int y, int shape,int squa
     painter.drawLine(x + squarewidth - 1, y + squareheight - 1,
                      x + squarewidth - 1, y + 1);
 
-    QImage image(":/images/stone.png");
-    painter.drawImage(x,y,image,0,0,squarewidth,squareheight);
+    /*QImage image(":/images/stone.png");
+    painter.drawImage(x,y,image,0,0,squarewidth,squareheight);*/
+}
+
+void environment::drawUnit(QPainter &painter, int x, int y, UNITKIND unitKind, int squarewidth, int squareheight)
+{
+    if(unitKind==UNITKIND::BRICK)
+    {
+        int unitColor=0;
+        switch (this->theme) {
+        case THEME::COSTOM_FOREST:
+            unitColor=3;
+            break;
+        case THEME::COSTOM_PIRARIE:
+            unitColor=7;
+            break;
+        case THEME::COSTOM_SEA:
+            unitColor=3;
+            break;
+        case THEME::SYSTEM_FUSION:
+            unitColor=6;
+            break;
+        case THEME::SYSTEM_WINDOWS:
+            unitColor=5;
+            break;
+        default:
+            break;
+        }
+        drawSquare(painter,x,y,unitColor,squarewidth,squareheight);
+        return;
+    }
+    else{
+        if(unitKind==UNITKIND::FOODNORMAL)
+        {
+            QImage image(":/images/mush1.png");
+            painter.drawImage(x,y,image,0,0,squarewidth,squareheight);
+        }
+        else{
+            QImage image(":/images/mush2.png");
+            painter.drawImage(x,y,image,0,0,squarewidth,squareheight);
+        }
+    }
 }
 
 /*draw food and brick*/
@@ -145,11 +192,11 @@ void environment::Qshow(QPainter &painter,int squarewidth, int squareheight,int 
 {
     for(int i=0;i<QVbrick.size();++i)
     {
-        drawSquare(painter,boardLeft+QVbrick[i].getUnitX()*squarewidth,boardTop+QVbrick[i].getUnitY()*squareheight,QVbrick[i].getUnitColor(),squarewidth,squareheight);
+        drawUnit(painter,boardLeft+QVbrick[i].getUnitX()*squarewidth,boardTop+QVbrick[i].getUnitY()*squareheight,QVbrick[i].getUnitKind(),squarewidth,squareheight);
     }
     for(int i=0;i<QVfood.size();++i)
     {
-        drawSquare(painter,boardLeft+QVfood[i].getUnitX()*squarewidth,boardTop+QVfood[i].getUnitY()*squareheight,QVfood[i].getUnitColor(),squarewidth,squareheight);
+        drawUnit(painter,boardLeft+QVfood[i].getUnitX()*squarewidth,boardTop+QVfood[i].getUnitY()*squareheight,QVfood[i].getUnitKind(),squarewidth,squareheight);
     }
 }
 

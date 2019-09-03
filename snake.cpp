@@ -16,15 +16,16 @@ void Snake::initSnake()
     QVsnake.clear();
     if(Sdirection==RIGHT){
     for (int i=0;i<SNAKELENGTH;++i) {
-        QVsnake.append(Unit(snakeheadx-i,snakeheady,snakecolor));
+        QVsnake.append(Unit(snakeheadx-i,snakeheady,snakecolor,UNITKIND::SNAKEBODY));
     }
     }
     if(Sdirection==LEFT)
     {
         for (int i=0;i<SNAKELENGTH;++i) {
-            QVsnake.append(Unit(snakeheadx+i,snakeheady,snakecolor));
+            QVsnake.append(Unit(snakeheadx+i,snakeheady,snakecolor,UNITKIND::SNAKEBODY));
     }
     }
+    QVsnake[0].setUnitKind(UNITKIND::SNAKEHEAD);
     changeLock=true;
 }
 
@@ -57,7 +58,7 @@ void Snake::QSmove(){
 /*grow*/
 void Snake::QSgrow()
 {
-    QVsnake.append(Unit(snakeheadx,snakeheady,snakecolor));
+    QVsnake.append(Unit(snakeheadx,snakeheady,snakecolor,UNITKIND::SNAKEBODY));
 
 }
 
@@ -187,7 +188,7 @@ bool Snake::QSquickGrow(int size)
     {
         addx=posx+i*(posx-prevposx);
         addy=posy+i*(posy-prevposy);
-        Unit unit(addx,addy,snakecolor);
+        Unit unit(addx,addy,snakecolor,UNITKIND::SNAKEBODY);
         QVsnake.append(unit);
     }
     return true;

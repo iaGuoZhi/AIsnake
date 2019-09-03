@@ -17,17 +17,19 @@ public:
     Unit()
     {}
 
-    Unit(int x,int y,int color)
+    Unit(int x,int y,int color,UNITKIND unitKind)
     {
         UnitX=x;
         UnitY=y;
         UnitColor=color;
+        this->unitKind=unitKind;
     }
-    Unit(int x, int y, int color,QString unitDescribe)
+    Unit(int x, int y, int color,UNITKIND unitKind,QString unitDescribe)
     {
         UnitX=x;
         UnitY=y;
         UnitColor=color;
+        this->unitKind=unitKind;
         UnitDescribe=unitDescribe;
     }
     int getUnitX()
@@ -61,6 +63,14 @@ public:
     void setUnitDescribe(QString unitDEscribe)
     {
         this->UnitDescribe=unitDEscribe;
+    }
+    UNITKIND getUnitKind()
+    {
+        return unitKind;
+    }
+    void setUnitKind(UNITKIND unitKind)
+    {
+        this->unitKind=unitKind;
     }
 private:
     int UnitX;

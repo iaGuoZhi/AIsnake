@@ -34,6 +34,7 @@ public:
     QVector<Unit> QVbrick;
     QVector<Unit> QVfoodbrick;       //array of the left-top point in the blocks of QVbrick, which can help generate food in the block;
     void drawSquare(QPainter &painter,int x,int y,int color,int squarewidth,int squareheight);
+    void drawUnit(QPainter &painter,int x,int y,UNITKIND unitKind,int squarewidth,int squareheight);
     void createFood();
     void createFood(int index);
     void createBrick();
