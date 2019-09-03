@@ -1,0 +1,2 @@
+# AIsnake
+QT c++
