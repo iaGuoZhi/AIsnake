@@ -2,11 +2,21 @@
 #define UNIT_H
 #include<QString>
 
+
+enum UNITKIND{
+    SNAKEHEAD,
+    SNAKEBODY,
+    FOODNORMAL,
+    FOODSPECIAL,
+    BRICK
+} ;
+
 class Unit
 {
 public:
     Unit()
     {}
+
     Unit(int x,int y,int color)
     {
         UnitX=x;
@@ -57,6 +67,7 @@ private:
     int UnitY;
     int UnitColor;
     QString UnitDescribe="";
+    UNITKIND unitKind;
 
 };
 

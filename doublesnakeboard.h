@@ -14,7 +14,7 @@ class doubleSnakeBoard:public snakeboard
 {
     Q_OBJECT
 public:
-    doubleSnakeBoard(QWidget *parent=0);
+    doubleSnakeBoard(THEME theme=THEME::COSTOM_FOREST,DIFFICULTY difficulty=DIFFICULTY::MEDIUM, QWidget *parent=0);
 
 public slots:
     void start();
@@ -31,9 +31,12 @@ private:
     int score1,score2;
     int level1=0,level2=0;
     Snake *snake1,*snake2;
-    environment environ;
+    environment *environ;
     int remainhidetimes1=0,remainhidetimes2=0;
     int hideleft1=0,hideleft2=0;
+
+    THEME theme;
+    DIFFICULTY difficulty;
 
     QBasicTimer timer;
 

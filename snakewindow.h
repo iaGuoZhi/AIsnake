@@ -33,7 +33,7 @@ signals:
 private:
     GAMEMODE mode=GAMEMODE::SINGLEPLAYER;
     THEME theme=THEME::COSTOM_FOREST;
-    int difficulty=50;
+    DIFFICULTY difficulty=DIFFICULTY::MEDIUM;
 
     QString difficultyString;
 

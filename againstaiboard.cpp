@@ -4,9 +4,11 @@
 #include <QKeyEvent>
 
 
-againstAIBoard::againstAIBoard(QWidget *parent)
+againstAIBoard::againstAIBoard(THEME theme,DIFFICULTY difficulty,QWidget *parent)
     :snakeboard(parent)
 {
+    this->theme=theme;
+    this->difficulty=difficulty;
     timer.start(timeoutTime(),this);
 }
 
@@ -17,9 +19,10 @@ void againstAIBoard::start()
     level1=0;
     level2=0;
 
-    environ.initEnvironment();
-    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT);
-    aisnake2=new aiSnake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT);
+    environ=new environment(theme,difficulty);
+    environ->initEnvironment();
+    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT,theme);
+    aisnake2=new aiSnake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT,theme);
     snake1->initSnake();
     aisnake2->initSnake();
     emit score1Changed(score1);
@@ -67,8 +70,8 @@ void againstAIBoard::timerEvent(QTimerEvent *event)
 
             /*snake eat food*/
             /*convert value to a variable,as QSeat() is not a constant func*/
-            eatresult1=snake1->QSeat(environ.QVfood);
-            eatresult2=aisnake2->QSeat(environ.QVfood);
+            eatresult1=snake1->QSeat(environ->QVfood);
+            eatresult2=aisnake2->QSeat(environ->QVfood);
 
             if(eatresult1!=-1)
             {
@@ -78,7 +81,7 @@ void againstAIBoard::timerEvent(QTimerEvent *event)
                 emit score1Changed(score1);
                 emit level1Changed(level1);
 
-                environ.createFood(eatresult1);
+                environ->createFood(eatresult1);
             }
 
             if(eatresult2!=-1)
@@ -89,17 +92,17 @@ void againstAIBoard::timerEvent(QTimerEvent *event)
                 emit score2Changed(score2);
                 emit level2Changed(level2);
 
-                environ.createFood(eatresult2);
+                environ->createFood(eatresult2);
             }
 
             /*move snake*/
             snake1->openChangeLock();
             snake1->QSmove();
-            aisnake2->QSbfs(environ.QVfood,environ.QVbrick);
+            aisnake2->QSbfs(environ->QVfood,environ->QVbrick);
             aisnake2->QSmove();
 
             /*judge snake alive*/
-            if(!snake1->QSalive(environ.QVbrick)||!aisnake2->QSalive(environ.QVbrick))
+            if(!snake1->QSalive(environ->QVbrick)||!aisnake2->QSalive(environ->QVbrick))
             {
                 state=END;
             }
@@ -128,7 +131,7 @@ void againstAIBoard::paintEvent(QPaintEvent *paint)
         QRect rect=contentsRect();
         int boardTop = rect.top();
         int boardLeft=rect.left();
-        environ.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
+        environ->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         snake1->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         aisnake2->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         p.end();

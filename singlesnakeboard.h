@@ -15,7 +15,7 @@ class singlesnakeboard:public snakeboard
     Q_OBJECT
 
 public:
-    singlesnakeboard(QWidget *parent=0);
+    singlesnakeboard(THEME theme=THEME::COSTOM_FOREST,DIFFICULTY difficulty=DIFFICULTY::MEDIUM,QWidget *parent=0);
 
 public slots:
     void start();
@@ -32,7 +32,10 @@ private:
     int remainhidetimes=0;   //可以隐身的次数
     int hideleft=0;         //这次隐身剩下的时间
 
-    environment environ;
+    THEME theme=THEME::COSTOM_FOREST;
+    DIFFICULTY difficulty=DIFFICULTY::MEDIUM;
+
+    environment *environ;
     Snake *snake;
 
     QBasicTimer timer;

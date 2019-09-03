@@ -4,7 +4,7 @@
 #include<QDebug>
 using namespace std;
 
-aiSnake::aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection):Snake(sheadx,sheady,scolor,sdirection)
+aiSnake::aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme):Snake(sheadx,sheady,scolor,sdirection,theme)
 {
 
 }
@@ -149,7 +149,7 @@ bool aiSnake::QSbfs(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
      int sheady=QVsnake[0].getUnitY();
 
      /*virtual snake*/
-     aiSnake snake(sheadx,sheady,1,this->Sdirection);
+     aiSnake snake(sheadx,sheady,1,this->Sdirection,theme);
      snake.QVsnake.clear();
      for(int i=0;i<QVsnake.size();++i)
      {

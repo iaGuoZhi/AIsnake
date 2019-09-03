@@ -6,5 +6,29 @@
         <file>images/prairiebutton.jpeg</file>
         <file>images/seabackground.jpg</file>
         <file>images/seabutton.jpeg</file>
+        <file>images/mush1.gif</file>
+        <file>images/mush1.png</file>
+        <file>images/mush2.png</file>
+        <file>images/snakeUnit1.png</file>
+        <file>images/snakeUnit1Head.png</file>
+        <file>images/snakeUnit2.png</file>
+        <file>images/snakeUnit2Head.png</file>
+        <file>images/snakeUnit3.png</file>
+        <file>images/snakeUnit3Head.png</file>
+        <file>images/snakeUnit4.png</file>
+        <file>images/snakeUnit4Head.png</file>
+        <file>images/snakeUnit5.png</file>
+        <file>images/snakeUnit5Head.png</file>
+        <file>images/snakeUnit6.png</file>
+        <file>images/snakeUnit6Head.png</file>
+        <file>images/snakeUnit7.png</file>
+        <file>images/snakeUnit7Head.png</file>
+        <file>images/snakeUnit8.png</file>
+        <file>images/snakeUnit8Head.png</file>
+        <file>images/snakeUnit9.png</file>
+        <file>images/snakeUnit9Head.png</file>
+        <file>images/snakeUnit10.png</file>
+        <file>images/snakeUnit10Head.png</file>
+        <file>images/stone.png</file>
     </qresource>
 </RCC>

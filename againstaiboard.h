@@ -15,7 +15,7 @@ class againstAIBoard:public snakeboard
 {
     Q_OBJECT
 public:
-    againstAIBoard(QWidget *parent=0);
+    againstAIBoard(THEME theme=THEME::COSTOM_FOREST,DIFFICULTY difficulty=DIFFICULTY::MEDIUM,QWidget *parent=0);
 
 public slots: void start();
 
@@ -30,7 +30,10 @@ private:
     int level1=0,level2=0;
     Snake *snake1;
     aiSnake *aisnake2;
-    environment environ;
+    environment *environ;
+
+    THEME theme;
+    DIFFICULTY difficulty;
 
     QBasicTimer timer;
 

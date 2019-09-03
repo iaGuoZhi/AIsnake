@@ -3,8 +3,10 @@
 #include "unit.h"
 #include<QDebug>
 
-environment::environment()
+environment::environment(THEME theme,DIFFICULTY difficulty)
 {
+    this->theme=theme;
+    this->difficulty=difficulty;
 
 }
 
@@ -133,6 +135,9 @@ void environment::drawSquare(QPainter &painter, int x, int y, int shape,int squa
                      x + squarewidth - 1, y + squareheight - 1);
     painter.drawLine(x + squarewidth - 1, y + squareheight - 1,
                      x + squarewidth - 1, y + 1);
+
+    QImage image(":/images/stone.png");
+    painter.drawImage(x,y,image,0,0,squarewidth,squareheight);
 }
 
 /*draw food and brick*/

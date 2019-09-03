@@ -3,7 +3,7 @@
 #include "QDebug"
 #include <QKeyEvent>
 
-singlesnakeboard::singlesnakeboard(QWidget *parent)
+singlesnakeboard::singlesnakeboard(THEME theme,DIFFICULTY difficulty,QWidget *parent)
     : snakeboard(parent)
 {
     init();
@@ -11,6 +11,8 @@ singlesnakeboard::singlesnakeboard(QWidget *parent)
     level1=0;
     remainhidetimes=0;
     hideleft=0;
+    this->theme=theme;
+    this->difficulty=difficulty;
     timer.start(timeoutTime(), this);
 }
 
@@ -21,8 +23,9 @@ void singlesnakeboard::start()
     remainhidetimes=0;
     hideleft=0;
     state=RUN;
-    environ.initEnvironment();
-    snake=new Snake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT);
+    environ=new environment(theme,difficulty);
+    environ->initEnvironment();
+    snake=new Snake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT,this->theme);
     snake->initSnake();
 
     emit score1Changed(score1);
@@ -80,7 +83,7 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
             snake->QSmove();
             snake->openChangeLock();
 
-            eatResult=snake->QSeat(environ.QVfood);
+            eatResult=snake->QSeat(environ->QVfood);
             if(eatResult!=-1)
             {
                 score1+=3;
@@ -89,17 +92,17 @@ void singlesnakeboard::timerEvent(QTimerEvent *event)
                 emit score1Changed(score1);
                 emit level1Changed(level1);
 
-                if(environ.isHideBuff(eatResult))
+                if(environ->isHideBuff(eatResult))
                 {
                     this->remainhidetimes+=1;
                     emit hidetimesChanged(this->remainhidetimes);
 
                 }
-                environ.createFood(eatResult);
+                environ->createFood(eatResult);
             }
 
 
-            if(!snake->QSalive(environ.QVbrick))
+            if(!snake->QSalive(environ->QVbrick))
             {
                 state=END;
             }
@@ -126,7 +129,7 @@ void singlesnakeboard::paintEvent(QPaintEvent *paint)
         QRect rect=contentsRect();
         int boardTop =rect.top();
         int boardLeft=rect.left();
-        environ.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
+        environ->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         snake->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         p.end();
     }

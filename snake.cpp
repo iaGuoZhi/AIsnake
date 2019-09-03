@@ -1,12 +1,13 @@
 #include "snake.h"
 #include <QDebug>
 #include "unit.h"
-Snake::Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection)
+Snake::Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme)
 {
     this->snakeheadx=sheadx;
     this->snakeheady=sheady;
     this->snakecolor=scolor;
     this->Sdirection=sdirection;
+    this->theme=theme;
 }
 
 

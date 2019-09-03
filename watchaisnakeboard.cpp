@@ -2,11 +2,13 @@
 #include "watchaisnakeboard.h"
 #include "QDebug"
 #include <QKeyEvent>
-watchAISnakeBoard::watchAISnakeBoard(QWidget *parent):snakeboard(parent)
+watchAISnakeBoard::watchAISnakeBoard(THEME theme,DIFFICULTY difficulty,QWidget *parent):snakeboard(parent)
 {
     init();
     score=0;
     level=0;
+    this->theme=theme;
+    this->difficulty=difficulty;
     timer.start(timeoutTime(),this);
 }
 
@@ -15,8 +17,9 @@ void watchAISnakeBoard::start()
     score=0;
     level=0;
     state=RUN;
-    environ.initEnvironment();
-    aisnake=new aiSnake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT);
+    environ=new environment(theme,difficulty);
+    environ->initEnvironment();
+    aisnake=new aiSnake(SNAKEHEADX,SNAKEHEADY,1,DIRECTION::RIGHT,theme);
     aisnake->initSnake();
 
     emit scoreChanged(score);
@@ -31,7 +34,7 @@ void watchAISnakeBoard::timerEvent(QTimerEvent *event)
 
         if(state==RUN&&command!=HELP)
         {
-            eatResult=aisnake->QSeat(environ.QVfood);
+            eatResult=aisnake->QSeat(environ->QVfood);
 
             if(eatResult!=-1)
             {
@@ -41,17 +44,17 @@ void watchAISnakeBoard::timerEvent(QTimerEvent *event)
                 emit scoreChanged(score);
                 emit levelChanged(level);
 
-                environ.createFood(eatResult);
+                environ->createFood(eatResult);
 
             }
 
-             if(!aisnake->QSbfs(environ.QVfood,environ.QVbrick))
+             if(!aisnake->QSbfs(environ->QVfood,environ->QVbrick))
              {
-                 aisnake->followTail(environ.QVbrick);
+                 aisnake->followTail(environ->QVbrick);
              }
              aisnake->QSmove();
 
-            if(!aisnake->QSalive(environ.QVbrick))
+            if(!aisnake->QSalive(environ->QVbrick))
             {
                 state=END;
             }
@@ -79,7 +82,7 @@ void watchAISnakeBoard::paintEvent(QPaintEvent *paint)
         QRect rect=contentsRect();
         int boardTop =rect.top();
         int boardLeft=rect.left();
-        environ.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
+        environ->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         aisnake->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         p.end();
     }

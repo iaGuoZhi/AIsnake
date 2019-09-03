@@ -37,7 +37,7 @@ void SnakeWindow::reconnectAsOrder()
 {
     switch (this->mode) {
     case GAMEMODE::WATCHAIPLAY:
-        watchaiboard=new watchAISnakeBoard();
+        watchaiboard=new watchAISnakeBoard(this->theme,this->difficulty);
 
         connect(startButton, &QPushButton::clicked, watchaiboard, &watchAISnakeBoard::start);
         connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
@@ -51,7 +51,7 @@ void SnakeWindow::reconnectAsOrder()
         break;
 
     case GAMEMODE::SINGLEPLAYER:
-        singleboard=new singlesnakeboard();
+        singleboard=new singlesnakeboard(this->theme,this->difficulty);
 
         connect(startButton, &QPushButton::clicked, singleboard, &singlesnakeboard::start);
         connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
@@ -67,7 +67,7 @@ void SnakeWindow::reconnectAsOrder()
 
         break;
     case GAMEMODE::DOUBLEPLAYER:
-        doubleboard=new doubleSnakeBoard();
+        doubleboard=new doubleSnakeBoard(this->theme,this->difficulty);
 
         connect(startButton, &QPushButton::clicked, doubleboard, &doubleSnakeBoard::start);
         connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
@@ -89,7 +89,7 @@ void SnakeWindow::reconnectAsOrder()
         break;
 
     case GAMEMODE::PLAYWITHAI:
-        againstaiboard=new againstAIBoard();
+        againstaiboard=new againstAIBoard(this->theme,this->difficulty);
         connect(startButton, &QPushButton::clicked, againstaiboard, &againstAIBoard::start);
         connect(quitButton , &QPushButton::clicked, this, &SnakeWindow::quit);
         connect(pauseButton, &QPushButton::clicked, againstaiboard, &againstAIBoard::pause);
@@ -126,21 +126,25 @@ void SnakeWindow::remakeAsOrder(GAMEMODE mode, THEME theme, int difficulty)
     /*receive data from homepage*/
     this->mode=mode;
     this->theme=theme;
-    this->difficulty=difficulty;
-    switch (this->difficulty) {
+    switch (difficulty) {
     case 0:
-        this->difficultyString="非常简单";
+        this->difficulty=DIFFICULTY::VERY_EASY;
+         this->difficultyString="非常简单";
         break;
     case 1:
+        this->difficulty=DIFFICULTY::EASY;
         this->difficultyString="简单";
         break;
     case 2:
+        this->difficulty=DIFFICULTY::MEDIUM;
         this->difficultyString="中等";
         break;
     case 3:
+        this->difficulty=DIFFICULTY::HARD;
         this->difficultyString="困难";
         break;
     case 4:
+        this->difficulty=DIFFICULTY::VERY_HARD;
         this->difficultyString="非常困难";
         break;
     default:

@@ -29,7 +29,7 @@ const int FOODNUMBER=4;
 class environment: public QFrame  //继承qframe to enable the ability to draw
 {
 public:
-    environment();
+    environment(THEME theme,DIFFICULTY difficulty);
     QVector<Unit> QVfood;
     QVector<Unit> QVbrick;
     QVector<Unit> QVfoodbrick;       //array of the left-top point in the blocks of QVbrick, which can help generate food in the block;
@@ -41,6 +41,10 @@ public:
     void Qshow(QPainter &painter,int squarewidth,int squareheight,int boardLeft,int boardTop);
     void initEnvironment();
     bool isHideBuff(int index);
+
+private:
+    THEME theme;
+    DIFFICULTY difficulty;
 
 };
 

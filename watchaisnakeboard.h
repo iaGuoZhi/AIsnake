@@ -14,7 +14,7 @@ class watchAISnakeBoard:public snakeboard
 {
     Q_OBJECT
 public:
-    watchAISnakeBoard(QWidget *parent=0);
+    watchAISnakeBoard(THEME theme=THEME::COSTOM_FOREST,DIFFICULTY difficulty=DIFFICULTY::MEDIUM,QWidget *parent=0);
 
 public slots:
     void start();
@@ -27,8 +27,11 @@ private:
     int level=0;
     int score=0;
 
-    environment environ;
+    environment *environ;
     aiSnake *aisnake;
+
+    THEME theme;
+    DIFFICULTY difficulty;
 
     QBasicTimer timer;
 

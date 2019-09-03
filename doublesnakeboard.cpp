@@ -3,9 +3,11 @@
 #include "QDebug"
 #include <QKeyEvent>
 
-doubleSnakeBoard::doubleSnakeBoard(QWidget *parent)
+doubleSnakeBoard::doubleSnakeBoard(THEME theme,DIFFICULTY difficulty,QWidget *parent)
     : snakeboard(parent)
 {
+    this->theme=theme;
+    this->difficulty=difficulty;
     timer.start(timeoutTime(),this);
 }
 
@@ -19,9 +21,10 @@ void doubleSnakeBoard::start()
     remainhidetimes2=0;
     hideleft1=0;
     hideleft2=0;
-    environ.initEnvironment();
-    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT);
-    snake2=new Snake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT);
+    environ=new environment(theme,difficulty);
+    environ->initEnvironment();
+    snake1=new Snake(SNAKEHEADX+5,SNAKEHEADY+3,5,DIRECTION::RIGHT,theme);
+    snake2=new Snake(SNAKEHEADX-5,SNAKEHEADY-3,6,DIRECTION::LEFT,theme);
     snake1->initSnake();
     snake2->initSnake();
     emit score1Changed(score1);
@@ -114,8 +117,8 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
 
             /*snake eat food*/
             /*convert value to a variable,as QSeat() is not a constant func*/
-            eatresult1=snake1->QSeat(environ.QVfood);
-            eatresult2=snake2->QSeat(environ.QVfood);
+            eatresult1=snake1->QSeat(environ->QVfood);
+            eatresult2=snake2->QSeat(environ->QVfood);
 
             if(eatresult1!=-1)
             {
@@ -125,13 +128,13 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
                 emit score1Changed(score1);
                 emit level1Changed(level1);
 
-                if(environ.isHideBuff(eatresult1))
+                if(environ->isHideBuff(eatresult1))
                 {
                     this->remainhidetimes1+=1;
                     emit hidetimes1Changed(this->remainhidetimes1);
 
                 }
-                environ.createFood(eatresult1);
+                environ->createFood(eatresult1);
             }
 
             if(eatresult2!=-1)
@@ -141,13 +144,13 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
                 snake2->QSgrow();
                 emit score2Changed(score2);
                 emit level2Changed(level2);
-                if(environ.isHideBuff(eatresult2))
+                if(environ->isHideBuff(eatresult2))
                 {
                     this->remainhidetimes2+=1;
                     emit hidetimes2Changed(this->remainhidetimes2);
 
                 }
-                environ.createFood(eatresult2);
+                environ->createFood(eatresult2);
             }
 
             /*snake caputure snake*/
@@ -191,7 +194,7 @@ void doubleSnakeBoard::timerEvent(QTimerEvent *event)
 
 
             /*judge snake alive*/
-            if(!snake1->QSalive(environ.QVbrick)||!snake2->QSalive(environ.QVbrick))
+            if(!snake1->QSalive(environ->QVbrick)||!snake2->QSalive(environ->QVbrick))
             {
                 state=END;
             }
@@ -218,7 +221,7 @@ void doubleSnakeBoard::paintEvent(QPaintEvent *paint)
         QRect rect=contentsRect();
         int boardTop = rect.top();
         int boardLeft=rect.left();
-        environ.Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
+        environ->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         snake1->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         snake2->Qshow(p,squareWidth(),squareHeight(),boardLeft,boardTop);
         p.end();

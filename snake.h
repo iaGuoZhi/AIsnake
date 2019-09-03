@@ -24,7 +24,7 @@ class Snake
 
 
 public:
-    Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection);
+    Snake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme);
     void initSnake();
     void QSmove();
 
@@ -56,6 +56,7 @@ protected:
     int snakeheady;
     int snakecolor;
     bool changeLock;
+    THEME theme=THEME::COSTOM_FOREST;
 
 
 
