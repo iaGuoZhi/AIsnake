@@ -14,7 +14,7 @@ void prairiestyle::polish(QPalette &palette){
     QColor slightlyOpaqueBlack(0, 0, 0, 63);
 
     QPixmap backgroundImage(":/images/prairiebackground.jpeg");
-    QPixmap buttonImage(":/images/prairiebutton.jpeg");
+    QPixmap buttonImage(":/images/prairiebutton.jpg");
     QPixmap midImage = buttonImage;
 
     QPainter painter;

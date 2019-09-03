@@ -42,7 +42,7 @@ private:
 
     int timeoutTime()
     {
-        return 2000/(5+level1);
+        return 10000/(20+level1*(difficulty+1)+2*difficulty);
     }
 
 protected:

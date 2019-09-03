@@ -83,7 +83,7 @@ void environment::createBrick()
             if(i>BOARDWIDTH/3&&2*i<BOARDWIDTH*4/3&&j>BOARDHEIGHT/3&&2*j<BOARDHEIGHT*4/3)
                 continue;
             qsrand(QTime(0,0,0).msecsTo(QTime::currentTime()));
-            random=rand()%200;
+            random=rand()%(500-100*difficulty);
             if(random==0)
             {
                 QVfoodbrick.append(Unit(i,j,3,UNITKIND::BRICK));
@@ -91,7 +91,7 @@ void environment::createBrick()
                 {
                     for(int t=0;t<BRICKHEIGHT;++t)
                     {
-                        if(rand()%3!=0)
+                        if(rand()%10>3)
                          QVbrick.append(Unit(i+k,j+t,3,UNITKIND::BRICK));
                     }
                 }

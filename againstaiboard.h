@@ -38,7 +38,7 @@ private:
     QBasicTimer timer;
 
     int timeoutTime(){
-        return 2000/(7+MAX(level1,level2));
+        return 10000/(24+MAX(level1,level2)*(difficulty+1)+2*difficulty);
     }
 
 protected:
