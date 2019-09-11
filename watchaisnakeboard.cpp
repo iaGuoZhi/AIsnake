@@ -70,7 +70,7 @@ void watchAISnakeBoard::timerEvent(QTimerEvent *event)
 void watchAISnakeBoard::paintEvent(QPaintEvent *paint)
 {
     paintMessage(paint);
-    if(command!=HELP&&state==RUN)
+    if(command!=HELP&&state!=WAIT)
     {
         QPainter p;
         p.begin(this);

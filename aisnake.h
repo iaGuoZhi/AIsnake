@@ -28,7 +28,6 @@ class aiSnake:public Snake
     bool QSbfs(QVector<Unit> virtualSnake,QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
     DIRECTION findDirection(QVector<Unit> virtualSnake,vector<vector<POINT>> table,POINT point);
     bool followTail(QVector<Unit> virtualSnake,QVector<Unit> virtualBrick);
-    bool QSai(QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
     bool QSbfsPlus(QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
     QVector<Unit> QSgenerateVirtualSnake(vector<vector<POINT>> table,POINT point,int size);
 };

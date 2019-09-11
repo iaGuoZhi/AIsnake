@@ -59,10 +59,6 @@ bool aiSnake::QSbfs(QVector<Unit> virtualSnake,QVector<Unit> virtualFood, QVecto
         point=path.dequeue();
 
         if(point.isfood==true){
-                direction=findDirection(virtualSnake, table,point);
-
-                if(direction==NONE)
-                    return false;
                 return true;   //the ideal direction exists
         }
 
@@ -167,7 +163,7 @@ bool aiSnake::QSbfsPlus(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
                 return true;   //the ideal direction exists
             }
             else{
-                continue;
+
             }
         }
 
@@ -205,7 +201,8 @@ bool aiSnake::QSbfsPlus(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
         }
 
     }
-    /* not find suitable direction*/
+    /* can not eat food*/
+
     return false;
 }
 
@@ -287,7 +284,3 @@ bool aiSnake::QSbfsPlus(QVector<Unit> virtualFood, QVector<Unit> virtualBrick)
      return QSbfs(virtualSnake,virtualFood,virtualBrick);
  }
 
- bool aiSnake::QSai(QVector<Unit> virtualFood,QVector<Unit> virtualBrick)
- {
-   return true;
- }
