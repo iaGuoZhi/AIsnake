@@ -25,10 +25,12 @@ class aiSnake:public Snake
 
    public:
     aiSnake(int sheadx,int sheady,int scolor,DIRECTION sdirection,THEME theme,QString name="");
-    bool QSbfs(QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
-    DIRECTION findDirection(vector<vector<POINT>> table,POINT point);
-    bool followTail(QVector<Unit> virtualBrick);
+    bool QSbfs(QVector<Unit> virtualSnake,QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
+    DIRECTION findDirection(QVector<Unit> virtualSnake,vector<vector<POINT>> table,POINT point);
+    bool followTail(QVector<Unit> virtualSnake,QVector<Unit> virtualBrick);
     bool QSai(QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
+    bool QSbfsPlus(QVector<Unit> virtualFood,QVector<Unit> virtualBrick);
+    QVector<Unit> QSgenerateVirtualSnake(vector<vector<POINT>> table,POINT point,int size);
 };
 
 #endif // AISNAKE_H

@@ -98,7 +98,7 @@ void againstAIBoard::timerEvent(QTimerEvent *event)
             /*move snake*/
             snake1->openChangeLock();
             snake1->QSmove();
-            aisnake2->QSbfs(environ->QVfood,environ->QVbrick);
+            aisnake2->QSbfsPlus(environ->QVfood,environ->QVbrick);
             aisnake2->QSmove();
 
             /*judge snake alive*/

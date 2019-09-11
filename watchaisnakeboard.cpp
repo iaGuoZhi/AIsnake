@@ -48,10 +48,8 @@ void watchAISnakeBoard::timerEvent(QTimerEvent *event)
 
             }
 
-             if(!aisnake->QSbfs(environ->QVfood,environ->QVbrick))
-             {
-                 aisnake->followTail(environ->QVbrick);
-             }
+             aisnake->QSbfsPlus(environ->QVfood,environ->QVbrick);
+
              aisnake->QSmove();
 
             if(!aisnake->QSalive(environ->QVbrick))

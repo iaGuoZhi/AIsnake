@@ -17,6 +17,11 @@ public:
     Unit()
     {}
 
+    Unit(int x,int y)
+    {
+        UnitX=x;
+        UnitY=y;
+    }
     Unit(int x,int y,int color,UNITKIND unitKind)
     {
         UnitX=x;
@@ -75,9 +80,9 @@ public:
 private:
     int UnitX;
     int UnitY;
-    int UnitColor;
+    int UnitColor=1;
     QString UnitDescribe="";
-    UNITKIND unitKind;
+    UNITKIND unitKind=UNITKIND::FOODNORMAL;
 
 };
 
